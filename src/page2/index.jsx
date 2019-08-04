@@ -3,23 +3,19 @@
 import React from 'react';
 import { enquireScreen } from 'enquire-js';
 
-import Nav0 from './Nav0';
-import Banner1 from './Banner1';
-import Content0 from './Content0';
-import Content5 from './Content5';
-import Content3 from './Content3';
-import Footer1 from './Footer1';
+import Banner0 from './Banner0';
+import Feature1 from './Feature1';
+import Feature2 from './Feature2';
+import Feature0 from './Feature0';
 
 import {
-  // Nav00DataSource,
-  Banner10DataSource,
-  Content00DataSource,
-  Content50DataSource,
-  Content30DataSource,
-  Footer10DataSource,
+  Banner00DataSource,
+  Feature10DataSource,
+  Feature20DataSource,
+  Feature11DataSource,
+  Feature00DataSource,
 } from './data.source';
 import './less/antMotionStyle.less';
-import { getBanners } from './ajax';
 
 let isMobile;
 enquireScreen((b) => {
@@ -28,7 +24,7 @@ enquireScreen((b) => {
 
 // const { location } = window;
 
-export default class Home extends React.Component {
+export default class Page2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,42 +49,38 @@ export default class Home extends React.Component {
     //   }, 500);
     // }
     /* 如果不是 dva 2.0 请删除 end */
-    getBanners(2).then((res)=>{
-      console.log(res)
-    })
-
   }
 
   render() {
     const children = [
-      <Banner1
-        id="Banner1_0"
-        key="Banner1_0"
-        dataSource={Banner10DataSource}
+      <Banner0
+        id="Banner0_0"
+        key="Banner0_0"
+        dataSource={Banner00DataSource}
         isMobile={this.state.isMobile}
       />,
-      <Content0
-        id="Content0_0"
-        key="Content0_0"
-        dataSource={Content00DataSource}
+      <Feature1
+        id="Feature1_0"
+        key="Feature1_0"
+        dataSource={Feature10DataSource}
         isMobile={this.state.isMobile}
       />,
-      <Content5
-        id="Content5_0"
-        key="Content5_0"
-        dataSource={Content50DataSource}
+      <Feature2
+        id="Feature2_0"
+        key="Feature2_0"
+        dataSource={Feature20DataSource}
         isMobile={this.state.isMobile}
       />,
-      <Content3
-        id="Content3_0"
-        key="Content3_0"
-        dataSource={Content30DataSource}
+      <Feature1
+        id="Feature1_1"
+        key="Feature1_1"
+        dataSource={Feature11DataSource}
         isMobile={this.state.isMobile}
       />,
-      <Footer1
-        id="Footer1_0"
-        key="Footer1_0"
-        dataSource={Footer10DataSource}
+      <Feature0
+        id="Feature0_0"
+        key="Feature0_0"
+        dataSource={Feature00DataSource}
         isMobile={this.state.isMobile}
       />,
     ];
@@ -100,6 +92,7 @@ export default class Home extends React.Component {
         }}
       >
         {/* 如果不是 dva 2.0 替换成 {children} start */}
+        {/* {this.state.show && children} */}
         {children}
         {/* 如果不是 dva 2.0 替换成 {children} end */}
       </div>
