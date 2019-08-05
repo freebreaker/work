@@ -10,6 +10,7 @@ import {
   Nav00DataSource,
   Footer10DataSource,
 } from './Home/data.source.js';
+import AdminPage from './admin/App.tsx';
 
 let isMobile;
 enquireScreen((b) => {
@@ -30,12 +31,19 @@ class App extends Component {
     });
   }
   render() {
+    const url = window.location.href;
+    const ShowHeader = url.indexOf("admin") === -1;
     return (
       <Router>
         <div>
-          <Header dataSource={Nav00DataSource} isMobile={this.isMobile} />
+          {
+            ShowHeader ?
+              <Header dataSource={Nav00DataSource} isMobile={this.isMobile} />
+              : ""
+          }
           <Route exact path="/" component={Home} />
           <Route exact path="/page2" component={Page2} />
+          <Route path="/admin" component={AdminPage} />
           <Footer dataSource={Footer10DataSource} isMobile={this.isMobile} />
         </div>
       </Router>
