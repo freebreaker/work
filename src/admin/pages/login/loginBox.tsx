@@ -20,10 +20,10 @@ export class LoginBox extends React.Component<ILoginBoxProps> {
                 <Form.Item>
                     <Input onChange={this.props.passwordChange} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码" />
                 </Form.Item>
-                <div className="check">
+                {/* <div className="check">
                     <Checkbox style={{color:"white"}}>记住密码</Checkbox>
                     <a className="login-form-forgot" href="/">忘记密码？</a>
-                </div>
+                </div> */}
                 <div>
                     {this.props.children}
                 </div>

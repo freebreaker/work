@@ -10,24 +10,24 @@ import { PersonalRound } from '../personalRound';
 
 import bg from "../../images/main/icon_logo2.png"
 
-const PetDivide = lazy(() => import("../divide/petDivide"))
-const GoodDivide = lazy(() => import("../divide/goodDivide"))
-const ServiceDivide = lazy(() => import("../divide/serviceDivide"))
-const PetAuditPage = lazy(() => import('../audit/petAudit'))
-const AppUpload = lazy(() => import('../appUpload'))
-const ProductAuditPage = lazy(() => import('../audit/productAudit'))
-const CompanyAuditPage = lazy(() => import("../audit/companyAudit"))
-const RolePage = lazy(() => import("../auth/role"))
-const PasswordPage = lazy(() => import('../user/password'))
-const UserChart = lazy(() => import('../charts/userChart'))
-const VaccineDivide = lazy(() => import('../divide/vaccine'))
+// const PetDivide = lazy(() => import("../divide/petDivide"))
+// const GoodDivide = lazy(() => import("../divide/goodDivide"))
+// const ServiceDivide = lazy(() => import("../divide/serviceDivide"))
+// const PetAuditPage = lazy(() => import('../audit/petAudit'))
+// const AppUpload = lazy(() => import('../appUpload'))
+// const ProductAuditPage = lazy(() => import('../audit/productAudit'))
+// const CompanyAuditPage = lazy(() => import("../audit/companyAudit"))
+// const RolePage = lazy(() => import("../auth/role"))
+// const PasswordPage = lazy(() => import('../user/password'))
+// const UserChart = lazy(() => import('../charts/userChart'))
+// const VaccineDivide = lazy(() => import('../divide/vaccine'))
 const AdminUsersPage = lazy(() => import('../auth/adminusers'))
-const UserList = lazy(() => import('../user/userlist'))
-const AuthentList = lazy(() => import("../user/authentList"))
-const UserAuditPage = lazy(() => import("../audit/userAudit"))
-const ServiceAuditPage = lazy(() => import('../audit/serviceAudit'))
-const BusinessRound = lazy(() => import('../businessRound'))
-const RepellantDivide = lazy(() => import('../divide/repellantDivide'))
+// const UserList = lazy(() => import('../user/userlist'))
+// const AuthentList = lazy(() => import("../user/authentList"))
+// const UserAuditPage = lazy(() => import("../audit/userAudit"))
+// const ServiceAuditPage = lazy(() => import('../audit/serviceAudit'))
+// const BusinessRound = lazy(() => import('../businessRound'))
+// const RepellantDivide = lazy(() => import('../divide/repellantDivide'))
 
 const { Header, Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -48,7 +48,7 @@ const menu = (
 
 export class AdminHome extends React.Component<any>{
 
-  public rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6','sub7','sub8','sub9',"sub10","sub11"];
+  public rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6', 'sub7', 'sub8', 'sub9', "sub10", "sub11"];
 
   public openKey = localStorage.getItem("openKeys")
 
@@ -98,9 +98,9 @@ export class AdminHome extends React.Component<any>{
     localStorage.setItem("key", key)
   }
 
-  public debounce=(fn:()=>void)=>{
-    let time:any = null
-    return ()=>{
+  public debounce = (fn: () => void) => {
+    let time: any = null
+    return () => {
       clearTimeout(time)
       time = setTimeout(() => {
         fn()
@@ -108,7 +108,7 @@ export class AdminHome extends React.Component<any>{
     }
   }
 
-  public test = () =>{
+  public test = () => {
     console.log(123)
     // let time
   }
@@ -131,6 +131,16 @@ export class AdminHome extends React.Component<any>{
               onOpenChange={this.onOpenChange}
             >
               <SubMenu
+                key="sub2"
+                title={<span><Icon type="paper-clip" /><span>用户管理</span></span>}
+              >
+                <Menu.Item key="6" onClick={() => this.setSelectedKeyToLocal("6")}>
+                  <Link to={{
+                    pathname: `/admin/home/adminusers`
+                  }} >用户列表</Link>
+                </Menu.Item>
+              </SubMenu>
+                  {/* <SubMenu
                 key="sub1"
                 title={<span><Icon type="audit" /><span>审核管理</span></span>}
               >
@@ -203,7 +213,7 @@ export class AdminHome extends React.Component<any>{
                 </Menu.Item>
                 {/* <Menu.Item key="16">
                   <Link to="/admin/home/authentlist">用户</Link>
-                </Menu.Item> */}
+                </Menu.Item>
               </SubMenu>
               <SubMenu
                 key="sub6"
@@ -229,7 +239,7 @@ export class AdminHome extends React.Component<any>{
                   <Link to="/admin/home/picture/1">公有云图片</Link>
                 </Menu.Item>
               </SubMenu> */}
-              <SubMenu
+                  < SubMenu
                 key="sub9"
                 title={<span><Icon type="notification" /><span>广告管理</span></span>}
               >
@@ -244,7 +254,7 @@ export class AdminHome extends React.Component<any>{
                 <Menu.Item key="21" onClick={() => this.setSelectedKeyToLocal("21")}>
                   <Link to="/admin/home/round/1">圈子列表</Link>
                 </Menu.Item>
-              </SubMenu>
+              </SubMenu> */}
             </Menu>
           </Sider>
           <Layout style={{ minHeight: "100vh" }}>
@@ -287,7 +297,7 @@ export class AdminHome extends React.Component<any>{
             }}
             >
               <Suspense fallback={null}>
-                <Route path="/admin/home/petAudit/:page" component={PetAuditPage} />
+                {/* <Route path="/admin/home/petAudit/:page" component={PetAuditPage} />
                 <Route path="/admin/home/productAudit/:page" component={ProductAuditPage} />
                 <Route path="/admin/home/userAudit/:page" component={UserAuditPage} />
                 <Route path="/admin/home/companyAudit/:page" component={CompanyAuditPage} />
@@ -298,16 +308,16 @@ export class AdminHome extends React.Component<any>{
                 <Route path="/admin/home/vaccineDivide" component={VaccineDivide} />
                 <Route path="/admin/home/repellantDivide" component={RepellantDivide} />
                 <Route path="/admin/home/app" component={AppUpload} />
-                <Route path="/admin/home/role" component={RolePage} />
+                <Route path="/admin/home/role" component={RolePage} /> */}
                 <Route path="/admin/home/adminusers" component={AdminUsersPage} />
-                <Route path="/admin/home/password" component={PasswordPage} />
+                {/* <Route path="/admin/home/password" component={PasswordPage} />
                 <Route path="/admin/home/userlist/:page" component={UserList} />
                 <Route path="/admin/home/authentlist" component={AuthentList} />
                 <Route path="/admin/home/userchart" component={UserChart} />
                 <Route path="/admin/home/businessRound" component={BusinessRound} />
                 <Route path="/admin/home/picture/:page" component={PictureList} />
                 <Route path="/admin/home/advertisement/:page" component={AdvertisementList} />
-                <Route path="/admin/home/round/:page" component={PersonalRound} />
+                <Route path="/admin/home/round/:page" component={PersonalRound} /> */}
               </Suspense>
             </Content>
           </Layout>
