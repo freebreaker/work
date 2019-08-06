@@ -1,0 +1,2644 @@
+type ChongduAccount @db(name: "chongdu_account") {
+  id: Int! @id
+  # 是否删除
+  d: Int @default(value: 0)
+  # 优选次数
+  favorNum: Int @db(name: "favor_num")
+  # 是否vip
+  isVip: Int @db(name: "is_vip")
+  # 账户等级
+  level: Int
+  # 店铺ID
+  merchantId: String @db(name: "merchant_id")
+  # 余额
+  money: Float
+  # 剩余刷新次数
+  refreshNum: Int @db(name: "refresh_num")
+  # 置顶次数
+  stickNum: Int @db(name: "stick_num")
+  # 用户类型
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduAddress @db(name: "chongdu_address") {
+  id: Int! @id
+  # 城市
+  city: String
+  # 邮编
+  code: String
+  # 收货人国家
+  country: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 详细地址
+  detailAdd: String @db(name: "detail_add")
+  # 修改时间
+  mt: String
+  # 收货人姓名
+  name: String
+  # 省份
+  province: String
+  # 地区
+  region: String
+  # 排序
+  sort: Int
+  # 状态(是否是默认地址)
+  status: Int
+  # 手机号码
+  tel: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduAddressRelation @db(name: "chongdu_address_relation") {
+  id: Int! @id
+  # 城市
+  city: String
+  # 邮编
+  code: String
+  # 联系人国家
+  country: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 详细地址
+  detailAdd: String @db(name: "detail_add")
+  # 修改时间
+  mt: String
+  # 联系人姓名
+  name: String
+  # 省份
+  province: String
+  # 地区
+  region: String
+  # 排序
+  sort: Int
+  # 状态(是否是默认地址)
+  status: Int
+  # 手机号码
+  tel: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduAdmin @db(name: "chongdu_admin") {
+  id: ID! @id
+  # 代理商的管理员还是系统后台的管理员
+  agentAdminId: String @db(name: "agent_admin_id")
+  # 代理商ID
+  agentId: String @db(name: "agent_id")
+  # 所属城市
+  cityCode: String @db(name: "city_code")
+  # 注册时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 头像
+  icon: String
+  # 最后登录Ip地址
+  ip: String
+  # 是否认证
+  isAuth: Int @db(name: "is_auth")
+  # 最后登录时间
+  lastLoginTime: String @db(name: "last_login_time")
+  # 等级
+  level: Int
+  # 最后登录mac地址
+  mac: String
+  # 邮箱
+  mail: String
+  # 修改时间
+  mt: String
+  # 用户名
+  name: String
+  # 昵称
+  nickname: String
+  # 密码
+  pwd: String
+  # 真实姓名
+  realName: String @db(name: "real_name")
+  # 注册类型
+  rt: Int
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 手机号
+  tel: String
+  # 类型
+  type: Int
+  # 用户组id
+  groupId: ChongduRoleGroup @relation(link: INLINE) @db(name: "group_id")
+}
+
+type ChongduAdminRole @db(name: "chongdu_admin_role") {
+  id: Int! @id
+  # 管理员ID
+  adminId: String @db(name: "admin_id")
+  # 创建者ID
+  cadminId: String @db(name: "cadmin_id")
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 角色ID
+  roleId: Int @db(name: "role_id")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduAdvertisement @db(name: "chongdu_advertisement") {
+  id: Int! @id
+  # 管理员id
+  adminId: String @db(name: "admin_id")
+  # 代理商id
+  agentId: String @db(name: "agent_id")
+  # 城市编号
+  cityCode: String @db(name: "city_code")
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图片
+  image: String
+  # 修改时间
+  mt: String
+  # 商品ID(宠物ID、商品ID、服务ID)
+  relateId: String @db(name: "relate_id")
+  # 类型(1:宠物,2:商品,3:服务)
+  relateType: Int @db(name: "relate_type")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 标题
+  title: String
+  # 类型(1:链接,2:宠物商品服务,)
+  type: Int
+  # 广告页面
+  url: String
+}
+
+type ChongduAdvice @db(name: "chongdu_advices") {
+  id: Int! @id
+  # 内容
+  comment: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 类型
+  type: Int
+  # 用户id
+  useid: String
+}
+
+type ChongduAgent @db(name: "chongdu_agent") {
+  id: ID! @id
+  # 类型(分为直营和加盟)
+  type: Int
+}
+
+type ChongduAppVersion @db(name: "chongdu_app_version") {
+  id: Int! @id
+  # 应用版本代码
+  appCode: String @db(name: "app_code")
+  # app标识
+  appId: String @db(name: "app_id")
+  # 对外版本
+  appVersion: String @db(name: "app_version")
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 描述
+  description: String
+  # 设备类型
+  deviceType: Int @db(name: "device_type")
+  # 文件名
+  fileName: String @db(name: "file_name")
+  # 是否强制更新
+  forces: Int
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 升级链接
+  url: String
+}
+
+type ChongduAppointment @db(name: "chongdu_appointment") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceid: String
+  # 设备名称
+  devicename: String
+  # 设备类型
+  devicetype: Int
+  # 是否完成服务
+  isOk: Int @db(name: "is_ok") @default(value: 0)
+  # 商家留言
+  levelmessage: String
+  # 备注
+  mark: String
+  # 商家id
+  merchantId: String @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 服务id
+  serviceId: String @db(name: "service_id")
+  # 排序
+  sort: Int
+  # 预约状态
+  state: Int
+  # 宠物品种(关联宠物类别表)
+  subtype: Int
+  # 预约时间
+  time: String
+  # 开始时间
+  timebegin: String
+  # 结束时间
+  timeend: String
+  # 预约类型
+  type: Int
+  # 用户id
+  userId: String @db(name: "user_id")
+  # 订单号
+  orderSn:String @db(name: "order_sn")
+}
+
+type ChongduCart @db(name: "chongdu_cart") {
+  id: ID! @id
+  # 是否锁定
+  checked: Int
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 商家Id
+  merchantId: String @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 数量
+  num: Int
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduCity @db(name: "chongdu_city") {
+  # id
+  id: Int! @id
+  # 城市类型
+  code: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 城市名称
+  name: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduComment @db(name: "chongdu_comment") {
+  id: Int! @id
+  # 是否匿名（0：否；1：是）
+  anonymity: Int @default(value: 0)
+  # 浏览量
+  brower: Int
+  # 评论类型(1:商品评论,2:服务评论)
+  commentType: Int @db(name: "comment_type")
+  # 评论内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图片
+  image: String
+  # 是否追加评论
+  isAdd: Int @db(name: "is_add")
+  # 点赞数
+  likedNum: Int @db(name: "liked_num")
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 回复数
+  replyNum: Int @db(name: "reply_num")
+  # 服务ID
+  serviceId: String @db(name: "service_id")
+  # 分享数
+  shareNum: Int @db(name: "share_num")
+  # 商品评分(几颗星)
+  starNum: Float @db(name: "star_num")
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 视频
+  video: String
+  # 订单号
+  orderSn:String @db(name: "order_sn")
+}
+
+type ChongduCommentPraise @db(name: "chongdu_comment_praise") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 关联表id
+  relateId: Int @db(name: "relate_id")
+  # 关联表类型1：评论表，2：评论追评
+  relateType: Int @db(name: "relate_type")
+  # 点赞状态（0：否；1：赞）
+  status: Int @default(value: 0)
+  # 用户id
+  userId: String @db(name: "user_id")
+}
+
+type ChongduCommentReply @db(name: "chongdu_comment_reply") {
+  id: Int! @id
+  # 圈子评论Id
+  commentId: Int @db(name: "comment_id")
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 点赞数
+  praiseCount: Int @db(name: "praise_count")
+  # 回复用户的ID
+  replyuserId: String @db(name: "replyuser_id")
+  # 0：普通用户回复，1：商家回复
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduCommentReview @db(name: "chongdu_comment_review") {
+  id: Int! @id
+  # 浏览量
+  brower: Int
+  # 商品或服务评论的Id
+  commentId: Int @db(name: "comment_id")
+  # 评论内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图片
+  image: String
+  # 点赞数
+  likedNum: Int @db(name: "liked_num")
+  # 回复数
+  replyNum: Int @db(name: "reply_num")
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 视频
+  video: String
+}
+
+type ChongduCompanyauthent @db(name: "chongdu_companyauthent") {
+  id: ID! @id
+  # 主体类型
+  authType: String @db(name: "auth_type")
+  # 身份证背面照
+  backPhoto: String @db(name: "back_photo")
+  # 营业期限
+  bisDate: String @db(name: "bis_date")
+  # 营业执照
+  bisPhoto: String @db(name: "bis_photo")
+    # 城市名
+  city: String
+  # 城市编码
+  citycode: String  
+  # 企业地址
+  companyAddress: String @db(name: "company_address")
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 经营范围
+  discription: String
+  # 身份证正面照
+  frontPhoto: String @db(name: "front_photo")
+  # 手持证件照
+  handPhoto: String @db(name: "hand_photo")
+  # 门店形象照
+  headPhoto: String @db(name: "head_photo")
+  # 是否是法人
+  isSame: Int @db(name: "is_same")
+  # 纬度
+  latitude: String
+  # 法人身份证号码
+  legalDi: String @db(name: "legal_di")
+  # 法人姓名
+  legalName: String @db(name: "legal_name")
+  # 法人电话
+  legalTel: String @db(name: "legal_tel")
+  # 经度
+  longitude: String
+  # 商户ID
+  merchantId: String @db(name: "merchant_id")
+  # 企业名称
+  name: String
+  # 当前地址
+  nowAddress: String @db(name: "now_address")
+  # 其他执照
+  otherPhoto: String @db(name: "other_photo")
+  # 注册资金
+  registMoney: String @db(name: "regist_money")
+  # 成立日期
+  setupDate: String @db(name: "setup_date")
+  # 统一社会信用代码
+  socialCode: String @db(name: "social_code")
+  # 状态：0：待审核；1：审核通过；2：审核驳回
+  status: Int
+  # 用户ID
+  userId: ChongduUser @db(name: "user_id")
+}
+
+type ChongduCompanyrecommend @db(name: "chongdu_companyrecommend") {
+  id: Int! @id
+  # 城市
+  citycode: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceid: Int
+  # 结束时间
+  endtime: DateTime
+  # 商户名
+  fullname: String
+  # 商户id
+  merchantId: String @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 用户名
+  name: String
+  # 排序
+  sort: Int
+  # 开始时间
+  starttime: DateTime
+  # 状态
+  status: Int
+}
+
+type ChongduCorrelation @db(name: "chongdu_correlation") {
+  id: ID! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠物类别级别
+  petLevelId: Int @db(name: "pet_level_id")
+  # 宠物类别ID
+  petTypeId: Int @db(name: "pet_type_id")
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 服务ID
+  serviceId: String @db(name: "service_id")
+  # 类别(0：服务，1：商品)
+  type: Int
+}
+
+type ChongduDataVersion @db(name: "chongdu_data_version") {
+  id: Int! @id
+  # ip地址
+  ip: String
+  # mac地址
+  mac: String
+  # 修改时间
+  mt: String
+  # 修改人ID
+  muserId: String @db(name: "muser_id")
+  # 名称
+  name: String
+  # 数据类型
+  type: Int
+  # 版本号
+  versionCode: String @db(name: "version_code")
+}
+
+type ChongduDiscuss @db(name: "chongdu_discuss") {
+  id: Int! @id
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 商品或服务评论ID
+  pSComId: Int @db(name: "p_s_com_id")
+  # 回复类型(1:商家回复，2:普通用户回去)
+  replyType: Int @db(name: "reply_type")
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduFilemanage @db(name: "chongdu_filemanage") {
+  # id
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 自定义标记类型
+  customtype: Int
+  # 是否删除
+  d: Int @default(value: 0)
+  # 文件名
+  filename: String
+  # 修改时间
+  mt: String
+  # 路径
+  path: String
+  # 父ID
+  pid: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 表名
+  tablename: String
+  # 资源类型
+  type: Int
+  # 用户ID
+  userid: String
+}
+
+type ChongduFocusing @db(name: "chongdu_focusing") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 被关注者的ID
+  fUserId: String @db(name: "f_user_id")
+  # 点赞状态(0:不关注，1：关注)
+  status: Int
+  # 关注人ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduLock @db(name: "chongdu_lock") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 线程
+  thread: String
+  # 表名
+  tName: String @db(name: "t_name")
+  # 锁类型
+  type: Int
+  # 用户名
+  userId: String @db(name: "user_id")
+}
+
+type ChongduLog @db(name: "chongdu_log") {
+  id: Int! @id
+  # 类名
+  cn: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 数据id
+  dataId: Int @db(name: "data_id")
+  # ip地址
+  ip: String
+  # 模块名
+  mn: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 原数据
+  originalData: String @db(name: "original_data")
+  # 排序
+  sort: Int
+  # 是否成功
+  status: Int
+  # 目标数据
+  targetData: String @db(name: "target_data")
+  # 日志类型
+  type: Int
+  # 用户名
+  userId: String @db(name: "user_id")
+}
+
+type ChongduLoginLog @db(name: "chongdu_login_log") {
+  id: Int! @id
+  # 管理员ID
+  adminId: String @db(name: "admin_id")
+  # ip地址
+  ip: String
+  # 登录时间
+  loginTime: String @db(name: "login_time")
+  # mac地址
+  mac: String
+  # 用户类型
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduMenu @db(name: "chongdu_menu") {
+  id: ID! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图标
+  icon: String
+  # 移动端显示
+  mobile: String
+  # 移动端图标
+  mobileIcon: String @db(name: "mobile_icon")
+  # 模块名称
+  modelId: String @db(name: "model_id")
+  # 修改时间
+  mt: String
+  # 菜单名称
+  name: String
+  # 菜单路径
+  path: String
+  # 上级菜单
+  pid: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduMerchant @db(name: "chongdu_merchant") {
+  id: ID! @id
+  # 店铺地址
+  address: String
+  # 关注数
+  attention: Int
+  # 营业开始时间
+  beginTime: String @db(name: "begin_time")
+  # 城市名
+  city: String
+  # 城市编码
+  citycode: String
+  # 营业结束时间
+  endTime: String @db(name: "end_time")
+  # 商户头像
+  icon: String
+  # 维度
+  latitude: String
+  # 经度
+  longitude: String
+  # 店名
+  name: String
+  # 店铺电话
+  tel: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduMerchantImg @db(name: "chongdu_merchant_img") {
+  id: ID! @id
+  # 存储地址
+  addr: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 存储类型(0：图片，1：视频)
+  imgType: Int @db(name: "img_type")
+  # 商户ID
+  merchantId: String @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 状态(默认0)
+  status: Int
+  # 图片类型(0:门户照,1:介绍图)
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduMerchantstatistic @db(name: "chongdu_merchantstatistics") {
+  # id
+  id: Int! @id
+  # 数值
+  count: Int
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 天
+  day: Int
+  # 小时
+  hour: Int
+  # 月份
+  month: Int
+  # 修改时间
+  mt: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 类型
+  type: Int
+  # 年份
+  year: Int
+}
+
+type ChongduMessage @db(name: "chongdu_message") {
+  id: Int! @id
+  # authentstate
+  authentstate: String
+  # 消息内容
+  content: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 消息图片
+  img: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 消息发布时间
+  publishtime: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 消息标题
+  title: String
+  # 消息类型
+  type: Int
+  # 发布人ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduModel @db(name: "chongdu_model") {
+  id: ID! @id
+  # 执行路由
+  action: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int
+  # 修改时间
+  mt: String
+  # 模块名
+  name: String
+  # 命名空间
+  namespace: String
+  # 路径
+  path: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduModeldetail @db(name: "chongdu_modeldetail") {
+  id: ID! @id
+  # 模块名
+  action: String
+  # 对话框提示
+  alert: String
+  # 是否提示
+  ask: Int
+  # 权限模式
+  auth: String
+  # 按钮名称
+  buttomname: String
+  # 按钮
+  button: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 调用函数
+  function: String
+  # 窗口高度
+  heght: String
+  # 方法
+  method: String
+  # 方法名
+  methodname: String
+  # 模块ID
+  modelId: String @db(name: "model_id")
+  # 修改时间
+  mt: String
+  # 命名空间
+  namespace: String
+  # 参数
+  param: String
+  # 列表刷新
+  refresh: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 方法还是窗口
+  type: Int
+  # 窗口标题
+  viewname: String
+  # 窗口宽度
+  width: String
+}
+
+type ChongduOrder @db(name: "chongdu_order") {
+  id: Int! @id
+  # 收货人地址ID
+  addressId: Int @db(name: "address_id")
+  # 完成或关闭订单时间
+  closeTime: String @db(name: "close_time")
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 收货时间
+  endTime: String @db(name: "end_time")
+  # 修改时间
+  mt: String
+  # 订单号
+  orderNo: String @db(name: "order_no")
+  # 商品应付款
+  payment: Float
+  # 支付时间
+  paymentTime: String @db(name: "payment_time")
+  # 付款类型
+  paymentType: Int @db(name: "payment_type")
+  # 运费
+  postage: Float
+  # 发货时间
+  sendTime: String @db(name: "send_time")
+  # 状态
+  status: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduOrderItem @db(name: "chongdu_order_item") {
+  id: Int! @id
+  # 完成或关闭订单时间
+  closeTime: String @db(name: "close_time")
+  # 创建时间
+  ct: String
+  # 生成订单时商品单价
+  currentPrice: Float @db(name: "current_price")
+  # 是否删除
+  d: Int
+  # 收获时间
+  endTime: String @db(name: "end_time")
+  # 商品图片地址
+  image: String
+  # 卖家ID
+  merchantId: String @db(name: "merchant_id")
+  # 各个商家的订单编号
+  merOrderNo: String @db(name: "mer_order_no")
+  # 修改时间
+  mt: String
+  # 订单编号
+  orderNo: String @db(name: "order_no")
+  # 支付时间
+  paymentTime: String @db(name: "payment_time")
+  # 支付方式（1：支付宝，2：微信）
+  paymentType: Int @db(name: "payment_type")
+  # 邮费
+  postage: Float
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 商品名称
+  productName: String @db(name: "product_name")
+  # 商品数量
+  quantity: Int
+  # 买家留言
+  remark: String
+  # 退货状态：0->待退换货；1->退换货申请待确认；2->退换货中；3->退换货成功；4->退换货失败
+  reStatus: Int @db(name: "re_status") @default(value: 0)
+  # 发货时间
+  sendTime: String @db(name: "send_time")
+  # 订单状态：0->待付款；1->已付款待发货；2->已发货待收货；3->已收货待评价；4->已评价待追评；5->已追评；6->已关闭（取消订单）；
+  status: Int @default(value: 0)
+  # 商品总价
+  totalPrice: Float @db(name: "total_price")
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduOrderinvoice @db(name: "chongdu_orderinvoice") {
+  id: Int! @id
+  # 开户行及账号
+  accountnum: String
+  # 关联地址
+  addressid: Int
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 发票抬头
+  head: String
+  # 发票名称
+  invoicename: String
+  # 金额
+  money: Float
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 联系人姓名
+  name: String
+  # 发票性质
+  nature: Int
+  # 关联订单
+  orderid: String
+  # 联系人电话
+  phone: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 发票类型
+  type: Int
+  # 用户id
+  userid: String
+  # 用户名
+  username: String
+  # 纳税人识别号
+  usernum: String
+}
+
+type ChongduOrderinvoicedetail @db(name: "chongdu_orderinvoicedetail") {
+  id: Int! @id
+  # 审核时间
+  audittime: String
+  # 内容信息
+  content: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 关联发票id
+  invoiceid: Int
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int @default(value: 0)
+  # 标题
+  title: String
+  # 发票类型
+  type: Int
+  # 用户id
+  userid: String
+}
+
+type ChongduOrderserial @db(name: "chongdu_orderserial") {
+  id: Int! @id
+  # 流水描述
+  context: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 金额
+  money: Float
+  # 修改时间
+  mt: String
+  # 关联订单id
+  orderid: Int
+  # 订单编号
+  ordersn: String
+  # 业务类型
+  platformtype: Int
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 流水类型
+  type: Int
+  # 用户id
+  userid: String
+}
+
+type ChongduOrderstatistic @db(name: "chongdu_orderstatistics") {
+  # id
+  id: Int! @id
+  # 数值
+  count: Int
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 天
+  day: Int
+  # 小时
+  hour: Int
+  # 月份
+  month: Int
+  # 修改时间
+  mt: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 类型
+  type: Int
+  # 年份
+  year: Int
+}
+
+type ChongduPayInfo @db(name: "chongdu_pay_info") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 修改时间
+  mt: String
+  # 订单编号
+  orderNo: String @db(name: "order_no")
+  # 支付流水号
+  payNo: String @db(name: "pay_no")
+  # 支付平台
+  payPlatform: String @db(name: "pay_platform")
+  # 支付状态
+  status: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduPermission @db(name: "chongdu_permission") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建者iD
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 名称
+  name: String
+  # 父id
+  parentId: String @db(name: "parent_id")
+  # 父ids
+  parentIds: String @db(name: "parent_ids")
+  # 权限字符串 例："admin:view"
+  permission: String
+  # 状态
+  status: Int
+  # 类型：1：菜单，2：功能
+  type: Int
+  # 资源路径
+  url: String
+}
+
+type ChongduPet @db(name: "chongdu_pet") {
+  id: ID! @id
+  # 地址ID
+  addressId: Int @db(name: "address_id")
+  # 宠物生日
+  birthday: String
+  # 浏览量
+  browser: Int @default(value: 0)
+  # 发布区域
+  citycode: String
+  # 宠物编号
+  code: String
+  # 毛色
+  color: String
+  # 内容详情
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 缩略图
+  icon: String
+  # 价格是否面议
+  isMeet: Int @db(name: "is_meet")
+  # 宠物级别
+  level: Int
+  # 店铺ID
+  merchantId: String @db(name: "merchant_id")
+  # 编辑时间
+  mt: String
+  # 最后修改人ID
+  muserId: String @db(name: "muser_id")
+  # 宠物名称
+  name: String
+  # 价格
+  price: Float
+  # 发布类型(0:普通用户发布，1:商铺发布)
+  pType: Int @db(name: "p_type")
+  # 宠物性别
+  sex: Int
+  # 分享数
+  shareCount: Int @db(name: "share_count") @default(value: 0)
+  # 1上架  0下架
+  status: Int  
+  # 宠物标题
+  title: String
+  # 宠物类别Id
+  typeId: ChongduPetType @relation(link: INLINE) @db(name: "type_id")
+  # 发布人ID
+  userId: ChongduUser @relation(link: INLINE) @db(name: "user_id")
+}
+
+type ChongduPetCard @db(name: "chongdu_pet_card") {
+  id: Int! @id
+  # 出生日期
+  birthday: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠物头像
+  icon: String
+  # 是否绝育
+  isSteriliz: Int @db(name: "is_steriliz")
+  # 宠物名称
+  name: String
+  # 宠物类型
+  petType: Int @db(name: "pet_type")
+  # 点赞数
+  praiseCount: Int @db(name: "praise_count")
+  # 宠物性别
+  sex: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 宠物重量
+  weight: String
+}
+
+type ChongduPetImg @db(name: "chongdu_pet_img") {
+  id: ID! @id
+  # 存储地址
+  addr: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 存储类型(0：图片，1：视频)
+  imgType: Int @db(name: "img_type")
+  # 修改时间
+  mt: String
+  # 宠物ID
+  petId: String @db(name: "pet_id")
+  # 状态(默认0)
+  status: Int @default(value: 0)
+  # 图片类型(0:轮播图,1:介绍图,2:证书)
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduPetRecommend @db(name: "chongdu_pet_recommend") {
+  # id
+  id: Int! @id
+  # 城市
+  citycode: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceid: String
+  # 设备名称
+  devicename: String
+  # 设备类型
+  devicetype: Int
+  # 推荐结束时间
+  endtime: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 名称
+  name: String
+  # 宠物id
+  pid: Int
+  # 排序
+  sort: Int
+  # 推荐开始时间
+  starttime: String
+  # 状态
+  status: Int
+  # 发布人id
+  userid: String
+  # 用户名
+  username: String
+}
+
+type ChongduPetType @db(name: "chongdu_pet_type") {
+  id: Int! @id
+
+  # 创建时间
+  ct: String
+  # 创建人
+  cuserId: String @db(name: "cuser_id")
+  # 图片
+  image: String
+  # 级别
+  level: Int
+  # 类别名称
+  name: String
+  # 2级
+  pid: Int
+  # 1级
+  ppid: Int
+  # 排序
+  sort: Int
+}
+
+type ChongduPetauthentdetail @db(name: "chongdu_petauthentdetail") {
+  # id
+  id: Int! @id
+  # 审核状态(0：待审核，1：审核通过，2：审核驳回)
+  audit: Int
+  # 审核时间
+  authtime: String
+  # 认证内容信息
+  content: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 宠物ID
+  petid: ChongduPet @relation(link: INLINE)
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 认证标题
+  title: String
+  # 用户ID
+  userid: ChongduUser @relation(link: INLINE)
+}
+
+type ChongduPlatformBusiness @db(name: "chongdu_platform_business") {
+  id: Int! @id
+  # 详细内容
+  content: String
+  # 创建时间
+  ct: String
+  # 宠币
+  currency: Float
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 时长/次数
+  length: Int
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 业务名称
+  name: String
+  # 业务金额
+  price: Float
+  # 刷新次数
+  rNum: Int @db(name: "r_num")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 时间间隔
+  timestep: Int
+  # 业务类型
+  type: Int
+}
+
+type ChongduPlatformExecute @db(name: "chongdu_platform_execute") {
+  id: Int! @id
+  # 业务ID
+  business: Int
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 结束时间
+  endtime: String
+  # 金额
+  money: Float
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: String @db(name: "muser_id")
+  # 单次收费
+  oneprice: Float
+  # 关联表ID
+  relateId: Int @db(name: "relate_id")
+  # 关联表类型
+  relateType: Int @db(name: "relate_type")
+  # 剩余时长/次数
+  residue: Int
+  # 排序
+  sort: Int
+  # 开始时间
+  starttime: String
+  # 状态
+  status: Int
+  # 时间间隔
+  timestep: String
+  # 服务类型
+  type: Int
+  # 用户区域
+  userarea: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 用户名
+  username: String
+}
+
+type ChongduProduct @db(name: "chongdu_product") {
+  id: ID! @id
+  # 品牌型号ID
+  brandId: ChongduProductBrand @db(name: "brand_id")
+  # 浏览量
+  browser: Int
+  # 内容详情
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 头像
+  icon: String
+  # 店铺ID
+  merchantId: ChongduMerchant @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 商品名称
+  name: String
+  # 价格
+  price: Float
+  # 促销价格
+  promotionPrice: Float @db(name: "promotion_price")
+  # 销量
+  sale: Int
+  # 分享次数
+  shareCount: Int @db(name: "share_count")
+  # 商品状态
+  status: Int
+  # 库存
+  stock: Int
+  # 商品标题
+  title: String
+  # 商品类别id
+  typeId: ChongduProductType @relation(link: INLINE) @db(name: "type_id")
+  # 发布人
+  userId: String @db(name: "user_id")
+}
+
+type ChongduProductAuthentdetail @db(name: "chongdu_product_authentdetail") {
+  id: Int! @id
+  # 审核状态(0：待审核，1：审核通过，2：审核驳回)
+  audit: Int
+  # 审核时间
+  audittime: String
+  # 认证内容
+  content: String
+  # 创建时间
+  ct: String
+  # 创建用户
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 关联商品表id
+  productId: ChongduProduct @db(name: "product_id")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 审核标题
+  title: String
+  # 类型
+  type: Int
+  # 用户id
+  userid: ChongduUser
+}
+
+type ChongduProductBrand @db(name: "chongdu_product_brand") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建人
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 品牌拼音首字母大写
+  firstLetter: String @db(name: "first_letter")
+  # 品牌logo
+  logoImg: String @db(name: "logo_img")
+  # 修改时间
+  mt: String
+  # 修改人
+  muserId: String @db(name: "muser_id")
+  # 品牌名称
+  name: String
+  # 状态
+  status: Int
+  # 类别
+  type: Int
+}
+
+type ChongduProductImg @db(name: "chongdu_product_img") {
+  id: ID! @id
+  # 存储地址
+  addr: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 存储类型(0：图片，1：视频)
+  imgType: Int @db(name: "img_type")
+  # 修改时间
+  mt: String
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 状态(默认0)
+  status: Int
+  # 图片类型(0:轮播图,1:介绍图)
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduProductPettype @db(name: "chongdu_product_pettype") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠物品类级别
+  level: Int
+  # 宠物品类Id
+  petTypeId: Int @db(name: "pet_type_id")
+  # 宠物品类名
+  petTypeName: String @db(name: "pet_type_name")
+  # 商品ID
+  productId: String @db(name: "product_id")
+}
+
+type ChongduProductRecommend @db(name: "chongdu_product_recommend") {
+  # id
+  id: Int! @id
+  # 城市
+  citycode: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceid: String
+  # 设备名称
+  devicename: String
+  # 设备类型
+  devicetype: Int
+  # 推荐结束时间
+  endtime: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 名称
+  name: String
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 排序
+  sort: Int
+  # 推荐开始时间
+  starttime: String
+  # 状态
+  status: Int
+  # 发布人id
+  userid: String
+  # 用户名
+  username: String
+}
+
+type ChongduProductSku @db(name: "chongdu_product_sku") {
+  id: Int! @id
+  # 库存属性
+  attribute: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 锁定库存
+  lockStock: Int
+  # 库存预警值
+  lowStock: Int @db(name: "low_stock")
+  # 库存
+  num: Int
+  # 价格
+  price: Float
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 库存销量
+  salesVolume: Int @db(name: "sales_volume")
+  # 库存编码
+  skuCode: String @db(name: "sku_code")
+  # 状态
+  status: Int
+}
+
+type ChongduProductType @db(name: "chongdu_product_type") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建人ID
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 分类图片
+  img: String
+  # 级别
+  level: Int
+  # 修改时间
+  mt: String
+  # 修改人ID
+  muserId: String @db(name: "muser_id")
+  # 分类名
+  name: String
+
+  pettypeId: String @db(name: "pettype_id")
+  # 上级分类的ID
+  pid: Int
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduRecommend @db(name: "chongdu_recommend") {
+  # id
+  id: Int! @id
+  # 城市
+  cityCode: String @db(name: "city_code")
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: ChongduAdmin @relation(name:"Cuserid") @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceId: String @db(name: "device_id")
+  # 设备名称
+  deviceName: String @db(name: "device_name")
+  # 设备类型
+  deviceType: Int @db(name: "device_type")
+  # 推荐结束时间
+  endTime: String @db(name: "end_time")
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserId: ChongduAdmin @relation(name:"Muserid") @db(name: "muser_id")
+  # 名称
+  name: String
+  # 关联表id
+  relateId: String @db(name: "relate_id")
+  # 1：宠物；2：商品；3：服务
+  relateType: Int @db(name: "relate_type")
+  # 排序
+  sort: Int
+  # 推荐开始时间
+  startTime: String @db(name: "start_time")
+  # 状态
+  status: Int
+  # 1：推荐；2：优选活动
+  type: Int
+  # 发布人id
+  userId: ChongduUser @db(name: "user_id")
+  # 发布人姓名
+  userName: String @db(name: "user_name")
+}
+
+type ChongduRefresh @db(name: "chongdu_refresh") {
+  id: Int! @id
+  # 业务ID
+  businessId: Int @db(name: "business_id")
+  # 刷新时间
+  ct: String
+  # 宠物ID
+  petId: String @db(name: "pet_id")
+  # 商品ID
+  productId: String @db(name: "product_id")
+  # 刷新类别(1:宠物，2:服务，3:商品)
+  refreshType: Int @db(name: "refresh_type")
+  # 服务ID
+  serviceId: Int @db(name: "service_id")
+  # 刷新方式(1:手动刷新,2:自动刷新)
+  type: Int
+}
+
+type ChongduRepellent @db(name: "chongdu_repellent") {
+  id: Int! @id
+  # 品牌ID
+  brandId: Int @db(name: "brand_id")
+  # 城市code
+  cityCode: String @db(name: "city_code")
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图片
+  image: String
+  # 驱虫顺序
+  indexNum: Int @db(name: "index_num")
+  # 修改时间
+  mt: String
+  # 宠物ID
+  petId: String @db(name: "pet_id")
+  # 状态
+  status: Int
+  # 街道
+  street: String
+  # 驱虫时间
+  time: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduRole @db(name: "chongdu_role") {
+  id: ID! @id
+  # 创建时间
+  ct: String
+  # 创建者ID
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 修改者ID
+  muserId: String @db(name: "muser_id")
+  # 名称
+  name: String
+  # 状态
+  status: Int
+}
+
+type ChongduRoleDetail @db(name: "chongdu_role_detail") {
+  id: ID! @id
+  # 创建时间
+  ct: String
+  # 创建者ID
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 模块名称ID
+  modeldetailId: String @db(name: "modeldetail_id")
+  # 修改时间
+  mt: String
+  # 最后修改者ID
+  muserId: String @db(name: "muser_id")
+  # 角色ID
+  roleId: String @db(name: "role_id")
+  # 状态
+  status: Int
+}
+
+type ChongduSearchthink @db(name: "chongdu_searchthink") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 搜索热度
+  hot: Int
+  # 修改时间
+  mt: String
+  # 名称
+  name: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduService @db(name: "chongdu_service") {
+  id: ID! @id
+  # 服务区域
+  area: String
+  # 浏览量
+  browser: Int
+  # 内容详情
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 预约结束时间
+  endtime: String
+  # 缩略图
+  icon: String
+  # 店铺ID
+  merchantId: ChongduMerchant @db(name: "merchant_id")
+  # 修改时间
+  mt: String
+  # 服务名称
+  name: String
+  # 价格
+  price: Float
+  # 销量
+  sale: Int @default(value: 0)
+  # 分享统计
+  shareCount: Int @db(name: "share_count")
+  # 预约开始时间
+  starttime: String
+  # 服务状态
+  status: Int
+  # 服务标题
+  title: String
+  # 服务类别id
+  typeId: ChongduServiceType @db(name: "type_id")
+  # 发布人
+  userId: ChongduUser @db(name: "user_id")
+}
+
+type ChongduServiceAuthentdetail @db(name: "chongdu_service_authentdetail") {
+  id: Int! @id
+  # 审核状态(0：待审核，1：审核通过，2：审核驳回)
+  audit: Int
+  # 审核时间
+  audittime: String
+  # 认证内容
+  content: String
+  # 创建时间
+  ct: String
+  # 创建用户
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 最后创建者
+  muserid: String
+  # 关联服务表id
+  serviceId: String @db(name: "service_id")
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 审核标题
+  title: String
+  # 类型
+  type: Int
+  # 用户id
+  userid: String
+}
+
+type ChongduServiceImg @db(name: "chongdu_service_img") {
+  id: ID! @id
+  # 存储地址
+  addr: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 存储类型(0：图片，1：视频)
+  imgType: Int @db(name: "img_type")
+  # 修改时间
+  mt: String
+  # 服务ID
+  serviceId: String @db(name: "service_id")
+  # 状态(默认0)
+  status: Int
+  # 图片类型(0:轮播图,1:介绍图)
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduServicePettype @db(name: "chongdu_service_pettype") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠物品类级别
+  level: Int
+  # 宠物品类Id
+  petTypeId: Int @db(name: "pet_type_id")
+  # 宠物品类名
+  petTypeName: String @db(name: "pet_type_name")
+  # 服务ID
+  serviceId: String @db(name: "service_id")
+}
+
+type ChongduServiceRecommend @db(name: "chongdu_service_recommend") {
+  # id
+  id: Int! @id
+  # 城市
+  citycode: String
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备id
+  deviceid: String
+  # 设备名称
+  devicename: String
+  # 设备类型
+  devicetype: Int
+  # 推荐结束时间
+  endtime: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 名称
+  name: String
+  # 状态
+  s: Int
+  # 服务ID
+  serviceId: String @db(name: "service_id")
+  # 排序
+  sort: Int
+  # 推荐开始时间
+  starttime: String
+  # 发布人id
+  userid: String
+  # 用户名
+  username: String
+}
+
+type ChongduServiceType @db(name: "chongdu_service_type") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建人ID
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 分类图片
+  img: String
+  # 级别
+  level: Int
+  # 修改时间
+  mt: String
+  # 修改人ID
+  muserId: String @db(name: "muser_id")
+  # 分类名
+  name: String
+  # 上级分类的ID
+  pid: Int
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+}
+
+type ChongduStat @db(name: "chongdu_stats") {
+  id: ID! @id
+  # 代理商ID
+  agentId: String @db(name: "agent_id")
+  # 地区编码
+  citycode: String
+  # 创建时间
+  ct: String
+  # 创建人Id
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 修改人ID
+  muserId: String @db(name: "muser_id")
+  # 数量
+  num: Int
+  # 状态
+  satus: Int
+  # 排序
+  sort: Int
+  # 数据类型
+  type: Int
+}
+
+type ChongduTag @db(name: "chongdu_tag") {
+  id: Int! @id
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠舍ID
+  petCardId: Int @db(name: "pet_card_id")
+  # 类型
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 圈子ID
+  worldId: Int @db(name: "world_id")
+}
+
+type ChongduTagDetail @db(name: "chongdu_tag_detail") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 宠舍ID
+  petCardId: Int @db(name: "pet_card_id")
+  # 标签ID
+  tagId: Int @db(name: "tag_id")
+  # 圈子ID
+  worldId: Int @db(name: "world_id")
+}
+
+type ChongduUser @db(name: "chongdu_user") {
+  # id
+  id: ID! @id
+  # 余额
+  balance: Float
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # hash值
+  hash: String
+  # 头像
+  icon: String
+  # 最后登录ip地址
+  ip: String
+  # 用户名是否允许修改(0：Y，1：N)
+  isaudit: Int
+  # 是否实名认证
+  isauthent: Int
+  # 最后登录时间
+  lastlogintime: String
+  # 邮箱
+  mail: String
+  # 修改时间
+  mt: String
+  # 昵称
+  nickname: String
+  # 抖音登录的openId
+  openidDy: String @db(name: "openid_dy")
+  # qq登录的openId
+  openidQq: String @db(name: "openid_qq")
+  # 微信登录的openId
+  openidWx: String @db(name: "openid_wx")
+  # 手机号
+  phone: String
+  # 注册类型(1:邮箱,2:手机号,3:微信,4:QQ,5:dy)
+  regeistType: Int
+  # 注册时间
+  regtime: String
+  # 加密盐
+  salt: String
+  # 排序
+  sort: Int
+  # 状态(0：正常，1：停用)
+  status: Int
+  # 用户类型(0.普通用户，1.个体用户，2.公司用户)
+  type: Int
+  # 最后修改者(可以是平台管理员ID)
+  updateBy: String @db(name: "update_by")
+  # 用户名
+  username: String
+  # VIP
+  vip: Int
+}
+
+type ChongduUserFavourite @db(name: "chongdu_user_favourite") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 关联表中的ID
+  relateId: String @db(name: "relate_id")
+  # 关联类型（1：宠物，2：商品，3：服务）
+  relateType: Int @db(name: "relate_type")
+  # 状态（0：不收藏，1：收藏）
+  status: Int @default(value: 0)
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduUserauthent @db(name: "chongdu_userauthent") {
+  id: ID! @id
+  # 认证时间
+  authtime: String
+  # 反面照片
+  backPhoto: String @db(name: "back_photo")
+  # 有效期开始时间
+  beginTime: String @db(name: "begin_time")
+  # 生日
+  birthday: String
+  # 身份证地址
+  cardAddress: String @db(name: "card_address")
+  # 身份证号
+  cardNum: String @db(name: "card_num")
+  # 区域
+  citycode: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 有效期结束时间
+  endTime: String @db(name: "end_time")
+  # 正面照片
+  frontPhoto: String @db(name: "front_photo")
+  # 手持照片
+  handPhoto: String @db(name: "hand_photo")
+  # 民族
+  nation: String
+  # 真实姓名
+  realName: String @db(name: "real_name")
+  # 性别
+  sex: Int
+  # 身份证签发地
+  signFrom: String @db(name: "sign_from")
+  # 状态0: 待审核；1:审核通过；2: 审核失败
+  status: Int
+  # 用户ID
+  userId: ChongduUser @db(name: "user_id")
+}
+
+type ChongduUserbind @db(name: "chongdu_userbind") {
+  id: Int! @id
+  # 绑定时间
+  bindtime: String
+  # 验证数据
+  content: String
+  # 创建时间
+  ct: String
+  # 创建者ID
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 邮箱地址
+  mail: String
+  # 修改时间
+  mt: String
+  # 最后修改者ID
+  muserId: String @db(name: "muser_id")
+  # 排序
+  sort: Int @default(value: 0)
+  # 状态
+  status: Int @default(value: 0)
+  # 手机号
+  tel: String
+  # 类型
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduUserdetail @db(name: "chongdu_userdetail") {
+  id: Int! @id
+  # 设备唯一码
+  deviceCode: String @db(name: "device_code")
+  # 设备型号名称
+  deviceName: String @db(name: "device_name")
+  # 注册设备类型(0.平台，1.安卓，2.IOS)
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduUserstatistic @db(name: "chongdu_userstatistics") {
+  # id
+  id: Int! @id
+  # 数值
+  count: Int
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 天
+  day: Int
+  # 小时
+  hour: Int
+  # 月份
+  month: Int
+  # 修改时间
+  mt: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 类型
+  type: Int
+  # 年份
+  year: Int
+}
+
+type ChongduVaccine @db(name: "chongdu_vaccine") {
+  id: Int! @id
+  # 品牌ID
+  brandId: Int @db(name: "brand_id")
+  # 城市code
+  cityCode: String @db(name: "city_code")
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 图片
+  image: String
+  # 打针顺序
+  indexNum: Int @db(name: "index_num")
+  # 修改时间
+  mt: String
+  # 宠物ID
+  petId: String @db(name: "pet_id")
+  # 状态
+  status: Int
+  # 街道
+  street: String
+  # 疫苗时间
+  time: String
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduVaccineBrand @db(name: "chongdu_vaccine_brand") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserId: String @db(name: "cuser_id")
+  # 是否删除
+  d: Int @default(value: 0)
+  # 描述
+  description: String
+  # 图片
+  image: String
+  # 驱虫/疫苗名称
+  name: String
+  # 排序
+  sort: Int
+  # 类型：1.驱虫，2:疫苗
+  type: Int
+}
+
+type ChongduValidate @db(name: "chongdu_validate") {
+  id: Int! @id
+  # 验证码
+  code: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 修改时间
+  mt: String
+  # 用户手机号
+  phone: String
+  # 排序
+  sort: Int
+  # 状态
+  status: Int
+  # 类型
+  type: Int
+}
+
+type ChongduVersion @db(name: "chongdu_version") {
+  id: Int! @id
+  # ip地址
+  ip: String
+  # mac地址
+  mac: String
+  # 修改时间
+  mt: String
+  # 修改人ID
+  muserId: String @db(name: "muser_id")
+  # 名称
+  name: String
+  # 数据类型
+  tyep: Int
+  # 版本号
+  versionCode: String @db(name: "version_code")
+}
+
+type ChongduViewcount @db(name: "chongdu_viewcount") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 创建者
+  cuserid: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 设备ID
+  deviceid: String
+  # 设备名称
+  devicename: String
+  # 设备类型
+  devicetype: Int
+  # ip
+  ip: String
+  # 修改时间
+  mt: String
+  # 最后修改者
+  muserid: String
+  # 对象
+  pid: String
+  # 状态
+  s: Int
+  # 类型
+  type: Int
+  # 用户id
+  userid: String
+  # 排序
+  xu: Int
+}
+
+type ChongduWorld @db(name: "chongdu_world") {
+  id: Int! @id
+  # 活动名称
+  activityName: String @db(name: "activity_name")
+  # 评论状态(0:允许评论，1：禁止评论)
+  commentStatus: Int @db(name: "comment_status")
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 描述
+  description: String
+  # 3s视频
+  gif: String
+  # 图片或视频高度
+  height: Float
+  # 图片地址
+  image: String
+  # 参加活动人数
+  joinCount: Int @db(name: "join_count")
+  # 维度
+  latitude: String
+  # 经度
+  longitude: String
+  # 点赞数
+  praiseCount: Int @db(name: "praise_count")
+  # 分享数
+  shareCount: Int @db(name: "share_count")
+  # 0：动态，1：活动
+  type: Int
+  # 用户id
+  userId: ChongduUser @db(name: "user_id")
+  # 视频地址(最多15s)
+  video: String
+  # 浏览数
+  viewCount: Int @db(name: "view_count")
+  # 图片或视频宽度
+  width: Float
+}
+
+type ChongduWorldComment @db(name: "chongdu_world_comments") {
+  id: Int! @id
+  # 评论内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 评论点赞数
+  praiseCount: Int @db(name: "praise_count") @default(value: 0)
+  # 点赞状态(0:不点赞，1：点赞)
+  status: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 圈子id
+  worldId: Int @db(name: "world_id")
+}
+
+type ChongduWorldJoin @db(name: "chongdu_world_join") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 0:未参加，1：参加
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+  # 关联表的ID(圈子ID)
+  worldId: Int @db(name: "world_id")
+}
+
+type ChongduWorldLike @db(name: "chongdu_world_like") {
+  id: Int! @id
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 关联表的ID(圈子ID)
+  relateId: Int @db(name: "relate_id")
+  # 0:不喜欢，1：喜欢
+  type: Int
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+type ChongduWorldReply @db(name: "chongdu_world_reply") {
+  id: Int! @id
+  # 圈子评论Id
+  commentId: Int @db(name: "comment_id")
+  # 内容
+  content: String
+  # 创建时间
+  ct: String
+  # 是否删除
+  d: Int @default(value: 0)
+  # 点赞数
+  praiseCount: Int @db(name: "praise_count")
+  # 回复用户的ID
+  replyuserId: String @db(name: "replyuser_id")
+  # 用户ID
+  userId: String @db(name: "user_id")
+}
+
+# 用户组
+type ChongduRoleGroup @db(name: "chongdu_role_group") {
+  id: Int! @id
+
+  userId: String @db(name: "user_id")
+
+  roleName: String @db(name: "roleName")
+
+  cuserId: String @db(name: "cuser_id")
+
+  muserId: String @db(name: "muser_id")
+}
+
+# 角色权限表
+
+type ChongduRoleAuth @db(name: "chongdu_role_auth") {
+  id: Int! @id
+
+  userId: String @db(name: "user_id")
+
+  # add or edit
+  action: String
+
+  method: String
+
+  operationName: String @db(name: "operation_name")
+}
+
+type ChongduRoleMenu @db(name: "chongdu_role_menu") {
+  id: Int! @id
+
+  menuName: String @db(name: "menu_name")
+
+  menuUrl: String @db(name: "menu_url")
+
+  menuChildrenId: String @db(name: "menu_children_id")
+
+  roleGroupId: ChongduRoleGroup @db(name: "role_group_id")
+}
+
+type ChongduRoleMenuChildren @db(name: "chongdu_role_menu_children") {
+  # 子菜单id
+  id: Int! @id
+  # 父菜单id
+  menuId: ChongduRoleMenu @db(name: "menu_id")
+  # add/delete/edit/upload
+  action: String
+  # 权限名称
+  authName:String @db(name:"auth_name")
+  # 父菜单url名称
+  menuUrlName:String @db(name:"menu_url_name")
+  
+}
+
+type ChongduCompanyauthentLog @db(name: "chongdu_companyauthent_log") {
+  # id
+  id: Int! @id
+  # 企业认证id
+  companyauthentId:String @db(name:"companyauthent_id")
+  # 1：通过、2：驳回
+  status:Int
+  # 审核备注
+  remark:String
+  # 审核人员Id
+  cadminId:ChongduAdmin @relation(link: INLINE) @db(name:"cadmin_id")
+  # 审核时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduPetauthentLog @db(name: "chongdu_petauthent_log") {
+  # id
+  id: Int! @id
+  # 宠物认证id
+  petauthentId:String @db(name:"petauthent_id")
+  # 1：通过、2：驳回
+  status:Int
+  # 审核备注
+  remark:String
+  # 审核人员Id
+  cadminId:ChongduAdmin @relation(link: INLINE) @db(name:"cadmin_id")
+  # 审核时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduProductauthentLog @db(name: "chongdu_productauthent_log") {
+  # id
+  id: Int! @id
+  # 商品认证id
+  productauthentId:String @db(name:"productauthent_id")
+  # 1：通过、2：驳回
+  status:Int
+  # 审核备注
+  remark:String
+  # 审核人员Id
+  cadminId:ChongduAdmin @relation(link: INLINE) @db(name:"cadmin_id")
+  # 审核时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduUserauthentLog @db(name: "chongdu_userauthent_log") {
+  # id
+  id: Int! @id
+  # 用户认证id
+  userauthentId:String @db(name:"userauthent_id")
+  # 1：通过、2：驳回
+  status:Int
+  # 审核备注
+  remark:String
+  # 审核人员Id
+  cadminId:ChongduAdmin @relation(link: INLINE) @db(name:"cadmin_id")
+  # 审核时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduServiceauthentLog @db(name: "chongdu_serviceauthent_log") {
+  # id
+  id: Int! @id
+  # 用户认证id
+  serviceauthentId:String @db(name:"serviceauthent_id")
+  # 1：通过、2：驳回
+  status:Int
+  # 审核备注
+  remark:String
+  # 审核人员Id
+  cadminId:ChongduAdmin @relation(link: INLINE) @db(name:"cadmin_id")
+  # 审核时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduTradingArea @db(name:"chongdu_trading_area") {
+  # id
+  id: Int! @id
+  # 城市编码
+  pCityCode:Int @db(name:"p_city_code")
+  # 区域编码
+  cityCode:String @db(name:"city_code")
+  # 行政区、县名称
+  cityName:String @db(name:"city_name")
+  # 商圈名称
+  tradingAreaName:String @db(name:"trading_area_name")
+  # 纬度
+  latitude:String 
+  # 经度
+  longitude:String
+  # 商圈半径
+  distance:Float
+  # 创建者id
+  cuserId:String @db(name:"cuser_id")
+  # 修改者id
+  muserId:String @db(name:"muser_id")
+  # 创建时间
+  ct:String
+  # 修改时间
+  mt:String
+}
+
+type ChongduWorldShield @db(name:"chongdu_world_shield") {
+  # id
+  id: Int! @id
+  # 类型 0 屏蔽圈子 1 屏蔽用户
+  type: Int
+  # 被屏蔽圈子id
+  worldId:ChongduWorld @db(name:"world_id")
+  # 被屏蔽的用户id
+  userId: ChongduUser @db(name:"user_id")
+  # 执行屏蔽操作用户id
+  shieldBy: String @db(name:"shield_by")
+  # 状态：0-->非屏蔽；1-->屏蔽
+  status: Int
+  # 创建时间
+  ct:String
+  # 修改时间
+  mt:String
+  # 是否删除
+  d:Int
+}
+
+type ChongduInform @db(name:"chongdu_inform") {
+  # id
+  id: Int! @id
+  # 0：不友善内容；1：违法违规；2：其他
+  type: Int
+  # 1：chongdu_comment 2：chongdu_comment_reply 3：chongdu_world_comments 4：chongdu_world_reply 5：chongdu_world
+  relatedType:Int @db(name:"related_type")
+  # 关联表id，各个评论表以及圈子表
+  relatedId: Int @db(name:"related_id")
+  # 举报描述
+  description: String 
+  # 图片证据
+  image: String
+  # 提交举报的用户
+  userId: ChongduUser @db(name:"user_id")
+  # 处理状态0：未；1：已处理；
+  status: Int
+  # 处理该举报的管理员id
+  disposeBy:ChongduAdmin @db(name:"dispose_by")
+  # 处理时间
+  disposeAt:String @db(name:"dispose_at")
+  # 创建时间
+  ct:String
+  # 是否删除
+  d:Int
+}
+

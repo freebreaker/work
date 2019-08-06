@@ -11,7 +11,7 @@ import Content3 from './Content3';
 import Footer1 from './Footer1';
 
 import {
-  Nav00DataSource,
+  // Nav00DataSource,
   Banner10DataSource,
   Content00DataSource,
   Content50DataSource,
@@ -19,20 +19,21 @@ import {
   Footer10DataSource,
 } from './data.source';
 import './less/antMotionStyle.less';
+import { getBanners } from './ajax';
 
 let isMobile;
 enquireScreen((b) => {
   isMobile = b;
 });
 
-const { location } = window;
+// const { location } = window;
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isMobile,
-      show: !location.port, // 如果不是 dva 2.0 请删除
+      // show: !location.port, // 如果不是 dva 2.0 请删除
     };
   }
 
@@ -43,25 +44,23 @@ export default class Home extends React.Component {
     });
     // dva 2.0 样式在组件渲染之后动态加载，导致滚动组件不生效；线上不影响；
     /* 如果不是 dva 2.0 请删除 start */
-    if (location.port) {
-      // 样式 build 时间在 200-300ms 之间;
-      setTimeout(() => {
-        this.setState({
-          show: true,
-        });
-      }, 500);
-    }
+    // if (location.port) {
+    //   // 样式 build 时间在 200-300ms 之间;
+    //   setTimeout(() => {
+    //     this.setState({
+    //       show: true,
+    //     });
+    //   }, 500);
+    // }
     /* 如果不是 dva 2.0 请删除 end */
+    getBanners(2).then((res)=>{
+      console.log(res)
+    })
+
   }
 
   render() {
     const children = [
-      <Nav0
-        id="Nav0_0"
-        key="Nav0_0"
-        dataSource={Nav00DataSource}
-        isMobile={this.state.isMobile}
-      />,
       <Banner1
         id="Banner1_0"
         key="Banner1_0"
@@ -101,7 +100,7 @@ export default class Home extends React.Component {
         }}
       >
         {/* 如果不是 dva 2.0 替换成 {children} start */}
-        {this.state.show && children}
+        {children}
         {/* 如果不是 dva 2.0 替换成 {children} end */}
       </div>
     );
