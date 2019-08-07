@@ -1,6 +1,6 @@
 export const login = require('./login.ts')
 
-// export const logout = require('./logout.ts')
+export const logout = require('./logout.ts')
 
 // export const petType = require('./petType.ts')
 
@@ -26,7 +26,7 @@ export const login = require('./login.ts')
 
 // export const repellant = require('./repellant.ts')
 
-// export const adminusers = require('./adminusers.ts')
+export const adminusers = require('./adminusers.ts')
 
 // export const round = require('./round.ts')
 

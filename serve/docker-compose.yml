@@ -1,6 +1,6 @@
 version: '3'
 services:
-  prisma:
+  work:
     image: prismagraphql/prisma:1.32
     restart: always
     ports:

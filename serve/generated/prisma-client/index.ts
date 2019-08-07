@@ -520,8 +520,8 @@ export interface AdminUser {
   id: Int;
   name?: String;
   pwd?: String;
-  createdAt?: DateTimeOutput;
-  lastLoginAt?: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  lastLoginAt: DateTimeOutput;
 }
 
 export interface AdminUserPromise extends Promise<AdminUser>, Fragmentable {
@@ -731,8 +731,8 @@ export interface AdminUserPreviousValues {
   id: Int;
   name?: String;
   pwd?: String;
-  createdAt?: DateTimeOutput;
-  lastLoginAt?: DateTimeOutput;
+  createdAt: DateTimeOutput;
+  lastLoginAt: DateTimeOutput;
 }
 
 export interface AdminUserPreviousValuesPromise

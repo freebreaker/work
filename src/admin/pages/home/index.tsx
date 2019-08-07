@@ -71,7 +71,7 @@ export class AdminHome extends React.Component<any>{
       if (res.status === 200) {
         message.success(res.msg)
         localStorage.clear()
-        this.props.history.push('/')
+        this.props.history.push('/admin')
       }
     })
   }
@@ -132,7 +132,7 @@ export class AdminHome extends React.Component<any>{
             >
               <SubMenu
                 key="sub2"
-                title={<span><Icon type="paper-clip" /><span>用户管理</span></span>}
+                title={<span><Icon type="paper-clip" /><span>后台用户</span></span>}
               >
                 <Menu.Item key="6" onClick={() => this.setSelectedKeyToLocal("6")}>
                   <Link to={{
@@ -238,7 +238,7 @@ export class AdminHome extends React.Component<any>{
                 <Menu.Item key="19" onClick={() => this.setSelectedKeyToLocal("19")}>
                   <Link to="/admin/home/picture/1">公有云图片</Link>
                 </Menu.Item>
-              </SubMenu> */}
+              </SubMenu> 
                   < SubMenu
                 key="sub9"
                 title={<span><Icon type="notification" /><span>广告管理</span></span>}

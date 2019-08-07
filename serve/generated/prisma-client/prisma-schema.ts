@@ -6,8 +6,8 @@ export const typeDefs = /* GraphQL */ `type AdminUser {
   id: Int!
   name: String
   pwd: String
-  createdAt: DateTime
-  lastLoginAt: DateTime
+  createdAt: DateTime!
+  lastLoginAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -57,8 +57,8 @@ type AdminUserPreviousValues {
   id: Int!
   name: String
   pwd: String
-  createdAt: DateTime
-  lastLoginAt: DateTime
+  createdAt: DateTime!
+  lastLoginAt: DateTime!
 }
 
 type AdminUserSubscriptionPayload {

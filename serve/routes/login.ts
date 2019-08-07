@@ -72,10 +72,10 @@ router.post(`/login`, async (req, res) => {
 
     await prisma.updateAdminUser({
       where:{
-        id:1
+        id:result[0].id
       },
       data:{
-        
+        name:name
       }
     })
 

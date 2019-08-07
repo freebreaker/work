@@ -2,7 +2,7 @@ import * as express from 'express'
 
 import { checkRedisTime } from './middleware/checkRedisTime';
 
-import { login, } from './routes/index'
+import { login, adminusers, logout} from './routes/index'
 
 import { checkApiAuth } from './middleware/checkApiAuth';
 
@@ -32,7 +32,11 @@ app.use(bodyParser.json())
 
 app.post(`/login`, login)
 
+app.use(`/logout`,logout)
+
 app.use(checkRedisTime)
+
+app.use(`/adminusers`, adminusers)
 
 // app.use('/petType', checkApiAuth, petType)
 

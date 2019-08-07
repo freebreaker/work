@@ -17,7 +17,7 @@ export const getUserId = async (Authorization:any)=>{
       
       const verifiedToken:any = verify(token, APP_SECRET)
 
-      const AdminUsers = await prisma.chongduAdmins({
+      const AdminUsers = await prisma.adminUsers({
 
         where: {
   

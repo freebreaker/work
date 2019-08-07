@@ -5,9 +5,9 @@ type AdminUser @db(name:"db_adminuser") {
     # 密码
     pwd:String
     # 创建日期
-    createdAt: DateTime @createdAt
+    createdAt: DateTime! @createdAt
     # 更新日期
-    lastLoginAt:DateTime @updatedAt
+    lastLoginAt:DateTime! @updatedAt
     posts: [Post!]!
 }
 

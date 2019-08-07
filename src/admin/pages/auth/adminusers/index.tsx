@@ -63,12 +63,8 @@ export default class AdminUsersPage extends React.Component<any, any> {
           return {
             key: item.id,  // key 应带对应data id 
             name: item.name,
-            nickname: item.nickname,
-            usertype: item.groupId ? item.groupId.roleName : "----",
-            phone: item.tel,
-            ip: item.ip ? item.ip : "----",
-            registertime: item.ct ? moment(parseInt(item.ct, 10)).format('YYYY-MM-DD H:mm:ss') : "----",
-            lastlogintime: item.lastLoginTime ? moment(parseInt(item.lastLoginTime, 10)).format('YYYY-MM-DD H:mm:ss') : "----",
+            createdAt:item.createdAt,
+            lastLoginAt:item.lastLoginAt
           }
         })
         That.setState({
@@ -141,11 +137,10 @@ export default class AdminUsersPage extends React.Component<any, any> {
 
   public editRole = (record: any) => {
     const That = this
-    console.log(record.size === "----", record)
     axios({
       method: "get",
       url: `/role/menus?id=${record.key}`,
-    }).then((res:any) => {
+    }).then((res: any) => {
       console.log(res)
       if (res) {
         const roleChildrenTableData = res.map((item: any, index: number) => {
@@ -377,55 +372,67 @@ export default class AdminUsersPage extends React.Component<any, any> {
 
     filteredInfo = filteredInfo || {};
 
-    const columns = [{
+    const columns = [
+    {
       title: '用户名',
       dataIndex: 'name',
       key: 'name',
-    }, {
-      title: '昵称',
-      dataIndex: 'nickname',
-      key: 'nickname',
-    },
-    {
-      title: '用户类型',
-      dataIndex: 'usertype',
-      key: 'usertype',
-    }, {
-      title: '绑定手机',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'IP',
-      dataIndex: 'ip',
-      key: 'ip',
-    },
-    {
-      title: '注册时间',
-      dataIndex: 'registertime',
-      key: 'registertime',
-    },
-    {
-      title: '最后登陆时间',
-      dataIndex: 'lastlogintime',
-      key: 'lastlogintime',
     },
     {
       title: '创建时间',
-      dataIndex: 'createtime',
-      key: 'createtime',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
     }, {
-      title: '操作',
-      dataIndex: 'operation',
-      key: 'operation',
-      render: (text: any, record: any) => {
-        return (
-          <span>
-            <a href="javascript:;" onClick={this.editGroup.bind(this, record)} style={{ marginRight: 20 }}>改变角色</a>
-          </span>
-        )
-      }
-    }];
+      title: '最后登陆时间',
+      dataIndex: 'lastLoginAt',
+      key: 'lastLoginAt',
+    }
+      // {
+      //   title: '昵称',
+      //   dataIndex: 'nickname',
+      //   key: 'nickname',
+      // },
+      // {
+      //   title: '用户类型',
+      //   dataIndex: 'usertype',
+      //   key: 'usertype',
+      // }, {
+      //   title: '绑定手机',
+      //   dataIndex: 'phone',
+      //   key: 'phone',
+      // },
+      // {
+      //   title: 'IP',
+      //   dataIndex: 'ip',
+      //   key: 'ip',
+      // },
+      // {
+      //   title: '注册时间',
+      //   dataIndex: 'registertime',
+      //   key: 'registertime',
+      // },
+      // {
+      //   title: '最后登陆时间',
+      //   dataIndex: 'lastlogintime',
+      //   key: 'lastlogintime',
+      // },
+      // {
+      //   title: '创建时间',
+      //   dataIndex: 'createtime',
+      //   key: 'createtime',
+      // }, {
+      //   title: '操作',
+      //   dataIndex: 'operation',
+      //   key: 'operation',
+      //   render: (text: any, record: any) => {
+      //     return (
+      //       <span>
+      //         <a href="javascript:;" onClick={this.editGroup.bind(this, record)} style={{ marginRight: 20 }}>改变角色</a>
+      //       </span>
+      //     )
+      //   }
+      // }
+    ];
 
     const rowSelection = {
       selectedRowKeys,
