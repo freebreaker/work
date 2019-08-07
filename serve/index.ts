@@ -2,8 +2,7 @@ import * as express from 'express'
 
 import { checkRedisTime } from './middleware/checkRedisTime';
 
-import { login, logout, petType, good, service, appAndApk, audit, detail, 
-  role, menu, user, chart, vaccine, adminusers, repellant, round, picture, advertisement, personalRound, inform, recommend } from './routes/index'
+import { login, } from './routes/index'
 
 import { checkApiAuth } from './middleware/checkApiAuth';
 
@@ -31,49 +30,45 @@ process.on('uncaughtException', function(err) {
 
 app.use(bodyParser.json())
 
-app.use('/picture' , picture)
-
 app.post(`/login`, login)
-
-app.use(`/logout`, logout)
 
 app.use(checkRedisTime)
 
-app.use('/petType', checkApiAuth, petType)
+// app.use('/petType', checkApiAuth, petType)
 
-app.use(`/good`, checkApiAuth, good)
+// app.use(`/good`, checkApiAuth, good)
 
-app.use(`/app`, appAndApk)
+// app.use(`/app`, appAndApk)
 
-app.use(`/service`, checkApiAuth, service)
+// app.use(`/service`, checkApiAuth, service)
 
-app.use(`/audit`, checkApiAuth, audit)
+// app.use(`/audit`, checkApiAuth, audit)
 
-app.use(`/detail`, checkApiAuth, detail)
+// app.use(`/detail`, checkApiAuth, detail)
 
-app.use(`/role`, checkApiAuth, role)
+// app.use(`/role`, checkApiAuth, role)
 
-app.use('/menu', checkApiAuth, menu)
+// app.use('/menu', checkApiAuth, menu)
 
-app.use(`/user`,user)
+// app.use(`/user`,user)
  
-app.use(`/chart`, checkApiAuth,chart)
+// app.use(`/chart`, checkApiAuth,chart)
 
-app.use(`/vaccine`, checkApiAuth,vaccine)
+// app.use(`/vaccine`, checkApiAuth,vaccine)
 
-app.use(`/repellant`, checkApiAuth,repellant)
+// app.use(`/repellant`, checkApiAuth,repellant)
 
-app.use(`/inform`, checkApiAuth,inform)
+// app.use(`/inform`, checkApiAuth,inform)
 
-app.use(`/adminusers`, checkApiAuth, adminusers)
+// app.use(`/adminusers`, checkApiAuth, adminusers)
 
-app.use('/round', checkApiAuth, round)
+// app.use('/round', checkApiAuth, round)
 
-app.use('/personalRound',checkApiAuth,personalRound)
+// app.use('/personalRound',checkApiAuth,personalRound)
 
-app.use('/advertisement',checkApiAuth,advertisement)
+// app.use('/advertisement',checkApiAuth,advertisement)
 
-app.use('/recommend' , recommend)
+// app.use('/recommend' , recommend)
 
 app.use((err, req, res, next) =>{
   

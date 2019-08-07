@@ -5,7 +5,7 @@ generate:
   - generator: typescript-client
     output: ./generated/prisma-client/
 
-# secret: my-secret-42
+secret: my-secret
 
 # hooks:
 #   post-deploy:

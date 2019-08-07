@@ -13,7 +13,7 @@ router.post(`/login`, async (req, res) => {
 
   const { name, pwd } = req.body;
 
-  const result = await prisma.chongduAdmins({
+  const result = await prisma.adminUsers({
 
     where: {
 
@@ -70,39 +70,12 @@ router.post(`/login`, async (req, res) => {
 
     })
 
-    // let Reply = await promise
-
-    // if (Reply) {
-
-    //   return res.json({ status: 200, token: token, msg: "已在其他地方登录" })
-
-    // } else {
-
-    //   await prisma.updateChongduAdmin({
-    //     where: {
-    //       id: result[0].id
-    //     },
-    //     data: {
-    //       lastLoginTime: new Date().getTime().toString(),
-    //       ip: getClientIp(req)
-    //     }
-    //   })
-
-    //   const putPolicy = new qiniu.rs.PutPolicy(options);
-
-    //   const uploadToken = putPolicy.uploadToken(mac);
-
-    //   return res.json({ status: 200, token: result[0] ? token : "", msg: "登录成功", uploadToken: uploadToken })
-
-    // }
-
-    await prisma.updateChongduAdmin({
-      where: {
-        id: result[0].id
+    await prisma.updateAdminUser({
+      where:{
+        id:1
       },
-      data: {
-        lastLoginTime: new Date().getTime().toString(),
-        ip: getClientIp(req)
+      data:{
+        
       }
     })
 
