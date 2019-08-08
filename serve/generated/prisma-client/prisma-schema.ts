@@ -176,6 +176,10 @@ type AggregateAdminUser {
   count: Int!
 }
 
+type AggregatePics {
+  count: Int!
+}
+
 type AggregatePost {
   count: Int!
 }
@@ -195,6 +199,12 @@ type Mutation {
   upsertAdminUser(where: AdminUserWhereUniqueInput!, create: AdminUserCreateInput!, update: AdminUserUpdateInput!): AdminUser!
   deleteAdminUser(where: AdminUserWhereUniqueInput!): AdminUser
   deleteManyAdminUsers(where: AdminUserWhereInput): BatchPayload!
+  createPics(data: PicsCreateInput!): Pics!
+  updatePics(data: PicsUpdateInput!, where: PicsWhereUniqueInput!): Pics
+  updateManyPicses(data: PicsUpdateManyMutationInput!, where: PicsWhereInput): BatchPayload!
+  upsertPics(where: PicsWhereUniqueInput!, create: PicsCreateInput!, update: PicsUpdateInput!): Pics!
+  deletePics(where: PicsWhereUniqueInput!): Pics
+  deleteManyPicses(where: PicsWhereInput): BatchPayload!
   createPost(data: PostCreateInput!): Post!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -218,6 +228,193 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type Pics {
+  id: Int!
+  page: Int!
+  type: Int!
+  imgSrc: String
+  title: String
+  text: String
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+}
+
+type PicsConnection {
+  pageInfo: PageInfo!
+  edges: [PicsEdge]!
+  aggregate: AggregatePics!
+}
+
+input PicsCreateInput {
+  id: Int
+  page: Int!
+  type: Int!
+  imgSrc: String
+  title: String
+  text: String
+}
+
+type PicsEdge {
+  node: Pics!
+  cursor: String!
+}
+
+enum PicsOrderByInput {
+  id_ASC
+  id_DESC
+  page_ASC
+  page_DESC
+  type_ASC
+  type_DESC
+  imgSrc_ASC
+  imgSrc_DESC
+  title_ASC
+  title_DESC
+  text_ASC
+  text_DESC
+  createdAt_ASC
+  createdAt_DESC
+  lastModifiedAt_ASC
+  lastModifiedAt_DESC
+}
+
+type PicsPreviousValues {
+  id: Int!
+  page: Int!
+  type: Int!
+  imgSrc: String
+  title: String
+  text: String
+  createdAt: DateTime!
+  lastModifiedAt: DateTime!
+}
+
+type PicsSubscriptionPayload {
+  mutation: MutationType!
+  node: Pics
+  updatedFields: [String!]
+  previousValues: PicsPreviousValues
+}
+
+input PicsSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PicsWhereInput
+  AND: [PicsSubscriptionWhereInput!]
+  OR: [PicsSubscriptionWhereInput!]
+  NOT: [PicsSubscriptionWhereInput!]
+}
+
+input PicsUpdateInput {
+  page: Int
+  type: Int
+  imgSrc: String
+  title: String
+  text: String
+}
+
+input PicsUpdateManyMutationInput {
+  page: Int
+  type: Int
+  imgSrc: String
+  title: String
+  text: String
+}
+
+input PicsWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  page: Int
+  page_not: Int
+  page_in: [Int!]
+  page_not_in: [Int!]
+  page_lt: Int
+  page_lte: Int
+  page_gt: Int
+  page_gte: Int
+  type: Int
+  type_not: Int
+  type_in: [Int!]
+  type_not_in: [Int!]
+  type_lt: Int
+  type_lte: Int
+  type_gt: Int
+  type_gte: Int
+  imgSrc: String
+  imgSrc_not: String
+  imgSrc_in: [String!]
+  imgSrc_not_in: [String!]
+  imgSrc_lt: String
+  imgSrc_lte: String
+  imgSrc_gt: String
+  imgSrc_gte: String
+  imgSrc_contains: String
+  imgSrc_not_contains: String
+  imgSrc_starts_with: String
+  imgSrc_not_starts_with: String
+  imgSrc_ends_with: String
+  imgSrc_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  lastModifiedAt: DateTime
+  lastModifiedAt_not: DateTime
+  lastModifiedAt_in: [DateTime!]
+  lastModifiedAt_not_in: [DateTime!]
+  lastModifiedAt_lt: DateTime
+  lastModifiedAt_lte: DateTime
+  lastModifiedAt_gt: DateTime
+  lastModifiedAt_gte: DateTime
+  AND: [PicsWhereInput!]
+  OR: [PicsWhereInput!]
+  NOT: [PicsWhereInput!]
+}
+
+input PicsWhereUniqueInput {
+  id: Int
 }
 
 type Post {
@@ -439,6 +636,9 @@ type Query {
   adminUser(where: AdminUserWhereUniqueInput!): AdminUser
   adminUsers(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AdminUser]!
   adminUsersConnection(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AdminUserConnection!
+  pics(where: PicsWhereUniqueInput!): Pics
+  picses(where: PicsWhereInput, orderBy: PicsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pics]!
+  picsesConnection(where: PicsWhereInput, orderBy: PicsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PicsConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
@@ -447,6 +647,7 @@ type Query {
 
 type Subscription {
   adminUser(where: AdminUserSubscriptionWhereInput): AdminUserSubscriptionPayload
+  pics(where: PicsSubscriptionWhereInput): PicsSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 `

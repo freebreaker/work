@@ -2,7 +2,7 @@ import * as express from 'express'
 
 import { checkRedisTime } from './middleware/checkRedisTime';
 
-import { login, adminusers, logout} from './routes/index'
+import { login, adminusers, logout ,pics} from './routes/index'
 
 import { checkApiAuth } from './middleware/checkApiAuth';
 
@@ -38,41 +38,7 @@ app.use(checkRedisTime)
 
 app.use(`/adminusers`, adminusers)
 
-// app.use('/petType', checkApiAuth, petType)
-
-// app.use(`/good`, checkApiAuth, good)
-
-// app.use(`/app`, appAndApk)
-
-// app.use(`/service`, checkApiAuth, service)
-
-// app.use(`/audit`, checkApiAuth, audit)
-
-// app.use(`/detail`, checkApiAuth, detail)
-
-// app.use(`/role`, checkApiAuth, role)
-
-// app.use('/menu', checkApiAuth, menu)
-
-// app.use(`/user`,user)
- 
-// app.use(`/chart`, checkApiAuth,chart)
-
-// app.use(`/vaccine`, checkApiAuth,vaccine)
-
-// app.use(`/repellant`, checkApiAuth,repellant)
-
-// app.use(`/inform`, checkApiAuth,inform)
-
-// app.use(`/adminusers`, checkApiAuth, adminusers)
-
-// app.use('/round', checkApiAuth, round)
-
-// app.use('/personalRound',checkApiAuth,personalRound)
-
-// app.use('/advertisement',checkApiAuth,advertisement)
-
-// app.use('/recommend' , recommend)
+app.use('/pics',pics)
 
 app.use((err, req, res, next) =>{
   

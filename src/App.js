@@ -44,7 +44,11 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/page2" component={Page2} />
           <Route path="/admin" component={AdminPage} />
-          <Footer dataSource={Footer10DataSource} isMobile={this.isMobile} />
+          {
+            ShowHeader ?
+            <Footer dataSource={Footer10DataSource} isMobile={this.isMobile} />
+            : ""
+          }
         </div>
       </Router>
     );

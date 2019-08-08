@@ -18,3 +18,17 @@ type Post {
   published: Boolean! @default(value: false)
   author: AdminUser!
 }
+
+type Pics @db(name:"db_pics") {
+  id:Int! @id
+  page:Int!
+  # 1 banner 2 中间 3.下面 ....递增
+  type:Int!
+  imgSrc:String
+  title:String
+  text:String
+  # 创建日期
+  createdAt: DateTime! @createdAt
+  # 更新日期
+  lastModifiedAt:DateTime! @updatedAt
+}
