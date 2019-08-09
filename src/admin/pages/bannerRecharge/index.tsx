@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react'
-import { Button, Table, Drawer, Form, Input, Select } from 'antd';
-import { apiGetPictureList } from '../api';
+import { Button, Table, Drawer, Form, Input, Select, Upload, Icon } from 'antd';
+import { apiGetPictureList, apiPostPicture } from '../api';
 import { hasErrors } from '../../util/hasErrors';
 
 const { Option } = Select;
@@ -13,6 +13,8 @@ const FirstPageBannerWrap = (props: any) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const [addVisible, setAddVisible] = useState(false)
+
+    const [fileList, setFileList] = useState()
 
     useEffect(() => {
         apiGetPictureList().then((res: any) => {
@@ -39,6 +41,17 @@ const FirstPageBannerWrap = (props: any) => {
         props.form.validateFields((err: any, values: any) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const formData = new FormData();
+                console.log(fileList)
+                fileList.forEach((file:any) => {
+                  formData.append('files', file);
+                });
+                formData.append("page",values.page)
+                formData.append("type",values.type)
+                formData.append("title","title")
+                formData.append("content","content")
+                // apiPostPicture(values.page,values.type,values.fileList)
+                apiPostPicture(formData)
             }
         });
     };
@@ -59,6 +72,43 @@ const FirstPageBannerWrap = (props: any) => {
         selectedRowKeys,
         onChange: onSelectChange
     };
+
+    const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    };
+
+    const Props = {
+        onRemove: (file: any) => {
+            //   this.setState(state => {
+            const index = fileList.indexOf(file);
+            const newFileList = fileList.slice();
+            newFileList.splice(index, 1);
+            //     return {
+            //       fileList: newFileList,
+            //     };
+            //   });
+            setFileList(newFileList)
+        },
+        beforeUpload: (file: any) => {
+            //   this.setState(state => ({
+            //     fileList: [...state.fileList, file],
+            //   }));
+            if (!fileList) {
+                setFileList([...[], file])
+                return false
+            }
+
+            setFileList([...fileList, file])
+            return false;
+        },
+        // fileList,
+    };
+
+
     return (
         <div>
             <div style={{ marginBottom: 16, textAlign: "left" }}>
@@ -88,7 +138,7 @@ const FirstPageBannerWrap = (props: any) => {
                 }}
                 visible={!addVisible}
             >
-                <Form labelCol={{ span: 5 }} wrapperCol={{ span: 12 }} onSubmit={handleSubmit}>
+                <Form labelCol={{ span: 5 }} wrapperCol={{ span: 17 }} onSubmit={handleSubmit}>
                     <Form.Item label="导航栏">
                         {props.form.getFieldDecorator('page', {
                             rules: [{ required: true, message: '请选择导航栏' }],
@@ -108,6 +158,19 @@ const FirstPageBannerWrap = (props: any) => {
                                 <Option value={2}>中间</Option>
                                 <Option value={3}>底部</Option>
                             </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="图片">
+                        {props.form.getFieldDecorator('fileList', {
+                            valuePropName: 'fileList',
+                            getValueFromEvent: normFile,
+                        })(
+                            <Upload.Dragger name="files" {...Props} style={{ width: 320 }}>
+                                <p className="ant-upload-drag-icon">
+                                    <Icon type="inbox" />
+                                </p>
+                                <p className="ant-upload-text">点击上传</p>
+                            </Upload.Dragger>
                         )}
                     </Form.Item>
                     <div
