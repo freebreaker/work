@@ -7,6 +7,9 @@ export const typeDefs = /* GraphQL */ `type AdminUser {
   name: String
   pwd: String
   createdAt: DateTime!
+  realName: String
+  phone: String
+  role: Role
   lastLoginAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
@@ -21,7 +24,15 @@ input AdminUserCreateInput {
   id: Int
   name: String
   pwd: String
+  realName: String
+  phone: String
+  role: RoleCreateOneInput
   posts: PostCreateManyWithoutAuthorInput
+}
+
+input AdminUserCreateOneInput {
+  create: AdminUserCreateInput
+  connect: AdminUserWhereUniqueInput
 }
 
 input AdminUserCreateOneWithoutPostsInput {
@@ -33,6 +44,9 @@ input AdminUserCreateWithoutPostsInput {
   id: Int
   name: String
   pwd: String
+  realName: String
+  phone: String
+  role: RoleCreateOneInput
 }
 
 type AdminUserEdge {
@@ -49,6 +63,10 @@ enum AdminUserOrderByInput {
   pwd_DESC
   createdAt_ASC
   createdAt_DESC
+  realName_ASC
+  realName_DESC
+  phone_ASC
+  phone_DESC
   lastLoginAt_ASC
   lastLoginAt_DESC
 }
@@ -58,6 +76,8 @@ type AdminUserPreviousValues {
   name: String
   pwd: String
   createdAt: DateTime!
+  realName: String
+  phone: String
   lastLoginAt: DateTime!
 }
 
@@ -79,15 +99,38 @@ input AdminUserSubscriptionWhereInput {
   NOT: [AdminUserSubscriptionWhereInput!]
 }
 
+input AdminUserUpdateDataInput {
+  name: String
+  pwd: String
+  realName: String
+  phone: String
+  role: RoleUpdateOneInput
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
 input AdminUserUpdateInput {
   name: String
   pwd: String
+  realName: String
+  phone: String
+  role: RoleUpdateOneInput
   posts: PostUpdateManyWithoutAuthorInput
 }
 
 input AdminUserUpdateManyMutationInput {
   name: String
   pwd: String
+  realName: String
+  phone: String
+}
+
+input AdminUserUpdateOneInput {
+  create: AdminUserCreateInput
+  update: AdminUserUpdateDataInput
+  upsert: AdminUserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: AdminUserWhereUniqueInput
 }
 
 input AdminUserUpdateOneRequiredWithoutPostsInput {
@@ -100,6 +143,14 @@ input AdminUserUpdateOneRequiredWithoutPostsInput {
 input AdminUserUpdateWithoutPostsDataInput {
   name: String
   pwd: String
+  realName: String
+  phone: String
+  role: RoleUpdateOneInput
+}
+
+input AdminUserUpsertNestedInput {
+  update: AdminUserUpdateDataInput!
+  create: AdminUserCreateInput!
 }
 
 input AdminUserUpsertWithoutPostsInput {
@@ -152,6 +203,35 @@ input AdminUserWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  realName: String
+  realName_not: String
+  realName_in: [String!]
+  realName_not_in: [String!]
+  realName_lt: String
+  realName_lte: String
+  realName_gt: String
+  realName_gte: String
+  realName_contains: String
+  realName_not_contains: String
+  realName_starts_with: String
+  realName_not_starts_with: String
+  realName_ends_with: String
+  realName_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  role: RoleWhereInput
   lastLoginAt: DateTime
   lastLoginAt_not: DateTime
   lastLoginAt_in: [DateTime!]
@@ -176,11 +256,19 @@ type AggregateAdminUser {
   count: Int!
 }
 
+type AggregateMsg {
+  count: Int!
+}
+
 type AggregatePics {
   count: Int!
 }
 
 type AggregatePost {
+  count: Int!
+}
+
+type AggregateRole {
   count: Int!
 }
 
@@ -192,6 +280,200 @@ scalar DateTime
 
 scalar Long
 
+type Msg {
+  id: Int!
+  name: String!
+  phone: String!
+  message: String!
+  createdAt: DateTime!
+  remarks: String
+  cuser: AdminUser
+  deal: Boolean
+  dealTime: DateTime
+}
+
+type MsgConnection {
+  pageInfo: PageInfo!
+  edges: [MsgEdge]!
+  aggregate: AggregateMsg!
+}
+
+input MsgCreateInput {
+  id: Int
+  name: String!
+  phone: String!
+  message: String!
+  remarks: String
+  cuser: AdminUserCreateOneInput
+  deal: Boolean
+  dealTime: DateTime
+}
+
+type MsgEdge {
+  node: Msg!
+  cursor: String!
+}
+
+enum MsgOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  phone_ASC
+  phone_DESC
+  message_ASC
+  message_DESC
+  createdAt_ASC
+  createdAt_DESC
+  remarks_ASC
+  remarks_DESC
+  deal_ASC
+  deal_DESC
+  dealTime_ASC
+  dealTime_DESC
+}
+
+type MsgPreviousValues {
+  id: Int!
+  name: String!
+  phone: String!
+  message: String!
+  createdAt: DateTime!
+  remarks: String
+  deal: Boolean
+  dealTime: DateTime
+}
+
+type MsgSubscriptionPayload {
+  mutation: MutationType!
+  node: Msg
+  updatedFields: [String!]
+  previousValues: MsgPreviousValues
+}
+
+input MsgSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MsgWhereInput
+  AND: [MsgSubscriptionWhereInput!]
+  OR: [MsgSubscriptionWhereInput!]
+  NOT: [MsgSubscriptionWhereInput!]
+}
+
+input MsgUpdateInput {
+  name: String
+  phone: String
+  message: String
+  remarks: String
+  cuser: AdminUserUpdateOneInput
+  deal: Boolean
+  dealTime: DateTime
+}
+
+input MsgUpdateManyMutationInput {
+  name: String
+  phone: String
+  message: String
+  remarks: String
+  deal: Boolean
+  dealTime: DateTime
+}
+
+input MsgWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  remarks: String
+  remarks_not: String
+  remarks_in: [String!]
+  remarks_not_in: [String!]
+  remarks_lt: String
+  remarks_lte: String
+  remarks_gt: String
+  remarks_gte: String
+  remarks_contains: String
+  remarks_not_contains: String
+  remarks_starts_with: String
+  remarks_not_starts_with: String
+  remarks_ends_with: String
+  remarks_not_ends_with: String
+  cuser: AdminUserWhereInput
+  deal: Boolean
+  deal_not: Boolean
+  dealTime: DateTime
+  dealTime_not: DateTime
+  dealTime_in: [DateTime!]
+  dealTime_not_in: [DateTime!]
+  dealTime_lt: DateTime
+  dealTime_lte: DateTime
+  dealTime_gt: DateTime
+  dealTime_gte: DateTime
+  AND: [MsgWhereInput!]
+  OR: [MsgWhereInput!]
+  NOT: [MsgWhereInput!]
+}
+
+input MsgWhereUniqueInput {
+  id: Int
+}
+
 type Mutation {
   createAdminUser(data: AdminUserCreateInput!): AdminUser!
   updateAdminUser(data: AdminUserUpdateInput!, where: AdminUserWhereUniqueInput!): AdminUser
@@ -199,6 +481,12 @@ type Mutation {
   upsertAdminUser(where: AdminUserWhereUniqueInput!, create: AdminUserCreateInput!, update: AdminUserUpdateInput!): AdminUser!
   deleteAdminUser(where: AdminUserWhereUniqueInput!): AdminUser
   deleteManyAdminUsers(where: AdminUserWhereInput): BatchPayload!
+  createMsg(data: MsgCreateInput!): Msg!
+  updateMsg(data: MsgUpdateInput!, where: MsgWhereUniqueInput!): Msg
+  updateManyMsgs(data: MsgUpdateManyMutationInput!, where: MsgWhereInput): BatchPayload!
+  upsertMsg(where: MsgWhereUniqueInput!, create: MsgCreateInput!, update: MsgUpdateInput!): Msg!
+  deleteMsg(where: MsgWhereUniqueInput!): Msg
+  deleteManyMsgs(where: MsgWhereInput): BatchPayload!
   createPics(data: PicsCreateInput!): Pics!
   updatePics(data: PicsUpdateInput!, where: PicsWhereUniqueInput!): Pics
   updateManyPicses(data: PicsUpdateManyMutationInput!, where: PicsWhereInput): BatchPayload!
@@ -211,6 +499,12 @@ type Mutation {
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   deletePost(where: PostWhereUniqueInput!): Post
   deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createRole(data: RoleCreateInput!): Role!
+  updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
+  updateManyRoles(data: RoleUpdateManyMutationInput!, where: RoleWhereInput): BatchPayload!
+  upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
+  deleteRole(where: RoleWhereUniqueInput!): Role
+  deleteManyRoles(where: RoleWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -237,6 +531,7 @@ type Pics {
   imgSrc: String
   title: String
   text: String
+  cuser: AdminUser
   createdAt: DateTime!
   lastModifiedAt: DateTime!
 }
@@ -254,6 +549,7 @@ input PicsCreateInput {
   imgSrc: String
   title: String
   text: String
+  cuser: AdminUserCreateOneInput
 }
 
 type PicsEdge {
@@ -315,6 +611,7 @@ input PicsUpdateInput {
   imgSrc: String
   title: String
   text: String
+  cuser: AdminUserUpdateOneInput
 }
 
 input PicsUpdateManyMutationInput {
@@ -392,6 +689,7 @@ input PicsWhereInput {
   text_not_starts_with: String
   text_ends_with: String
   text_not_ends_with: String
+  cuser: AdminUserWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -636,18 +934,140 @@ type Query {
   adminUser(where: AdminUserWhereUniqueInput!): AdminUser
   adminUsers(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AdminUser]!
   adminUsersConnection(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AdminUserConnection!
+  msg(where: MsgWhereUniqueInput!): Msg
+  msgs(where: MsgWhereInput, orderBy: MsgOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Msg]!
+  msgsConnection(where: MsgWhereInput, orderBy: MsgOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MsgConnection!
   pics(where: PicsWhereUniqueInput!): Pics
   picses(where: PicsWhereInput, orderBy: PicsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pics]!
   picsesConnection(where: PicsWhereInput, orderBy: PicsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PicsConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  role(where: RoleWhereUniqueInput!): Role
+  roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
+  rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
   node(id: ID!): Node
+}
+
+type Role {
+  id: Int!
+  name: String
+}
+
+type RoleConnection {
+  pageInfo: PageInfo!
+  edges: [RoleEdge]!
+  aggregate: AggregateRole!
+}
+
+input RoleCreateInput {
+  id: Int
+  name: String
+}
+
+input RoleCreateOneInput {
+  create: RoleCreateInput
+  connect: RoleWhereUniqueInput
+}
+
+type RoleEdge {
+  node: Role!
+  cursor: String!
+}
+
+enum RoleOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type RolePreviousValues {
+  id: Int!
+  name: String
+}
+
+type RoleSubscriptionPayload {
+  mutation: MutationType!
+  node: Role
+  updatedFields: [String!]
+  previousValues: RolePreviousValues
+}
+
+input RoleSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RoleWhereInput
+  AND: [RoleSubscriptionWhereInput!]
+  OR: [RoleSubscriptionWhereInput!]
+  NOT: [RoleSubscriptionWhereInput!]
+}
+
+input RoleUpdateDataInput {
+  name: String
+}
+
+input RoleUpdateInput {
+  name: String
+}
+
+input RoleUpdateManyMutationInput {
+  name: String
+}
+
+input RoleUpdateOneInput {
+  create: RoleCreateInput
+  update: RoleUpdateDataInput
+  upsert: RoleUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: RoleWhereUniqueInput
+}
+
+input RoleUpsertNestedInput {
+  update: RoleUpdateDataInput!
+  create: RoleCreateInput!
+}
+
+input RoleWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+}
+
+input RoleWhereUniqueInput {
+  id: Int
 }
 
 type Subscription {
   adminUser(where: AdminUserSubscriptionWhereInput): AdminUserSubscriptionPayload
+  msg(where: MsgSubscriptionWhereInput): MsgSubscriptionPayload
   pics(where: PicsSubscriptionWhereInput): PicsSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
 }
 `

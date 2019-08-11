@@ -5,12 +5,32 @@ import TweenOne, { TweenOneGroup } from 'rc-tween-one';
 import BannerAnim, { Element } from 'rc-banner-anim';
 import { isImg } from './utils';
 import 'rc-banner-anim/assets/index.css';
+import  axios from 'axios'
 
 const { BgElement } = Element;
 class Banner extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource:props.dataSource
+      // show: !location.port, // 如果不是 dva 2.0 请删除
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.dataSource)
+    this.setState({
+      dataSource: nextProps.dataSource
+    });
+  }  
+
   render() {
     const { ...props } = this.props;
-    const { dataSource } = props;
+    const { dataSource } = this.state;
+
+    console.log(dataSource)
+
     delete props.dataSource;
     delete props.isMobile;
     const childrenToRender = dataSource.BannerAnim.children.map((item, i) => {
@@ -20,7 +40,8 @@ class Banner extends React.PureComponent {
       const { bg, textWrapper, title, content, button } = item;
       return (
         <Element key={i.toString()} {...elem} prefixCls={elemClassName}>
-          <BgElement key="bg" {...bg} />
+          {/* <BgElement key="bg" {...bg} /> */}
+          <BgElement key="bg" className="bg" style={{background:`url("/app/${item.imgSrc}") center`}}/>
           <QueueAnim
             type={['bottom', 'top']}
             delay={200}

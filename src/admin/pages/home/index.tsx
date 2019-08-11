@@ -6,6 +6,7 @@ import './index.less';
 import axios from '../../util/Axios';
 
 import bg from "../../images/main/icon_logo2.png"
+import Message from '../message';
 
 const AdminUsersPage = lazy(() => import('../auth/adminusers'))
 const FirstPageBanner = lazy(() => import('../bannerRecharge'))
@@ -112,10 +113,10 @@ export class AdminHome extends React.Component<any>{
               onOpenChange={this.onOpenChange}
             >
               <SubMenu
-                key="sub2"
+                key="sub1"
                 title={<span><Icon type="paper-clip" /><span>后台用户</span></span>}
               >
-                <Menu.Item key="6" onClick={() => this.setSelectedKeyToLocal("6")}>
+                <Menu.Item key="1" onClick={() => this.setSelectedKeyToLocal("1")}>
                   <Link to={{
                     pathname: `/admin/home/adminusers`
                   }} >用户列表</Link>
@@ -125,20 +126,20 @@ export class AdminHome extends React.Component<any>{
                 key="sub3"
                 title={<span><Icon type="paper-clip" /><span>图片管理</span></span>}
               >
-                <Menu.Item key="7" onClick={() => this.setSelectedKeyToLocal("6")}>
+                <Menu.Item key="7" onClick={() => this.setSelectedKeyToLocal("7")}>
                   <Link to={{
                     pathname: `/admin/home/picture1`
                   }} >首页图片</Link>
                 </Menu.Item>
-                <Menu.Item key="8" onClick={() => this.setSelectedKeyToLocal("7")}>
+              </SubMenu>
+              <SubMenu
+                key="sub4"
+                title={<span><Icon type="paper-clip" /><span>留言管理</span></span>}
+              >
+                <Menu.Item key="8" onClick={() => this.setSelectedKeyToLocal("8")}>
                   <Link to={{
-                    pathname: `/admin/home/picture2`
-                  }} >首页图片</Link>
-                </Menu.Item>
-                <Menu.Item key="9" onClick={() => this.setSelectedKeyToLocal("8")}>
-                  <Link to={{
-                    pathname: `/admin/home/picture3`
-                  }} >首页图片</Link>
+                    pathname: `/admin/home/message`
+                  }} >留言列表</Link>
                 </Menu.Item>
               </SubMenu>
             </Menu>
@@ -151,7 +152,7 @@ export class AdminHome extends React.Component<any>{
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
-              <div style={{
+              {/* <div style={{
                 width: "80%",
                 textAlign: "left"
               }}>
@@ -162,15 +163,15 @@ export class AdminHome extends React.Component<any>{
                   onChange={this.debounce(this.test)}
                 // enterButton={true}
                 />
-              </div>
-              <div style={{ width: "12%", display: "flex", justifyContent: "space-around" }}>
+              </div> */}
+              {/* <div style={{ width: "12%", display: "flex", justifyContent: "space-around" }}>
                 <Dropdown overlay={menu}>
                   <a className="ant-dropdown-link" href="#" style={{ display: "flex", alignItems: "center" }}>
                     <Avatar icon="user" />
                     <span style={{ marginLeft: 8, color: "black" }}>用户信息</span>
                   </a>
                 </Dropdown>
-              </div>
+              </div> */}
 
               <div>
                 <Button type="primary" className="login-form-button" onClick={this.logout.bind(this)}>
@@ -197,6 +198,7 @@ export class AdminHome extends React.Component<any>{
                 <Route path="/admin/home/role" component={RolePage} /> */}
                 <Route path="/admin/home/adminusers" component={AdminUsersPage} />
                 <Route path="/admin/home/picture1" component={FirstPageBanner} />
+                <Route path="/admin/home/message" component={Message} />
                 {/* <Route path="/admin/home/password" component={PasswordPage} />
                 <Route path="/admin/home/userlist/:page" component={UserList} />
                 <Route path="/admin/home/authentlist" component={AuthentList} />

@@ -1,8 +1,9 @@
-// import { getUserId } from './../util/index';
+import { cryptoPwd } from './../util/crypto';
+import { getUserId } from './../util/index';
 import * as express from 'express'
 import { prisma } from '../generated/prisma-client';
-// import * as jwt from 'jsonwebtoken'
-// import { client } from '../util/redis';
+import * as jwt from 'jsonwebtoken'
+import { client } from '../util/redis';
 
 const router = express.Router()
 
@@ -12,6 +13,11 @@ router.get(`/list`, async (req, res) => {
         fragment admin on adminUser {
             id
             name
+            realName
+            phone
+            role {
+                id
+            }
             createdAt
             lastLoginAt
         }
@@ -20,112 +26,83 @@ router.get(`/list`, async (req, res) => {
     return res.json(result)
 })
 
-// router.post(`/group`, async(req,res)=>{
-
-//     const {groupId,adminId} = req.body
-
-//     const result = await prisma.updateChongduAdmin({
-//         where:{
-//             id:adminId
-//         },
-//         data:{
-//             groupId:{
-//                 connect:{
-//                     id:groupId
-//                 }
-//             }
-//         }
-//     })
-
-//     return res.json(result)
-
-// })
-
-// router.post(`/add` , async(req,res)=>{
-
-//     const {
-//         name,
-//         pwd,
-//         realName,
-//         groupId,
-//         email,
-//         phone,
-//         cityCode,
-//         icon
-//       } = req.body
-
-//     const result = await prisma.createChongduAdmin({
-//         name:name ,
-//         pwd:pwd,
-//         realName:realName,
-//         mail:email,
-//         tel:phone,
-//         cityCode:cityCode,
-//         icon:icon,
-//         groupId:{
-//             connect:{
-//                 id:groupId
-//             }
-//         },
-//         ct:new Date().getTime().toString()
-//     })
-
-//     return res.json(result)
-// })
-
-// router.post(`/password`, async (req, res) => {
-
-//     const {oldpassword,newpassword,newpassword2} = req.body
-
-//     const Authorization = req.headers['authorization']
-  
-//     const { adminUserId ,verifiedToken } = await getUserId(Authorization)
-
-//     const AdminUserResult = await prisma.chongduAdmins({
-//         where:{
-//             id:adminUserId,
-//             pwd:oldpassword
-//         }
-//     })
-
-//     if(AdminUserResult.length>0 && newpassword === newpassword2){
-
-//         const name = verifiedToken.name
-
-//         const token = jwt.sign({
-//             name: name,
-//             admin: newpassword
-//         }, 'secret', { expiresIn: "1 days" })
-
-//         client.set(token, name)
-  
-//         client.set(name, token)
-
-//         client.expire(name, 3600)
-
-//         await prisma.updateChongduAdmin({
-//             where:{
-//                 id:adminUserId
-//             },
-//             data:{
-//                 pwd:newpassword
-//             }
-//         })
+router.post(`/add`, async (req, res) => {
     
-//         return res.json({
-//             success:true,
-//             msg:"修改成功",
-//             token:token
-//         })
-//     }else{
-//         return res.json({
-//             success:false,
-//             msg:"旧密码错误"
-//         })
-//     }
+    const { name, pwd , realName , phone} = req.body
 
+    const result = await prisma.createAdminUser({
+        name: name,
+        pwd: cryptoPwd(pwd),
+        realName:realName,
+        phone:phone
+    })
 
+    return res.json(result)
 
-// })
+})
 
+router.post(`/delete` , async(req , res)=>{
+
+    const {ids} = req.body
+
+    const result = await prisma.deleteManyAdminUsers({
+        id_in: ids
+    })
+
+    return res.json(result)
+})
+
+router.post(`/edit` , async(req,res)=>{
+
+    const {
+        id,
+        name,
+        pwd,
+        realName,
+        phone
+    } = req.body
+    
+    let cryptoPwdString = undefined
+
+    if(pwd){
+        cryptoPwdString = cryptoPwd(pwd)
+    }
+
+    const Authorization = req.headers['authorization']
+  
+    const { adminUserId ,verifiedToken } = await getUserId(Authorization)
+
+    const result = await prisma.updateAdminUser({
+        where:{
+            id:id
+        },
+        data:{
+            name:name ,
+            pwd:cryptoPwdString,
+            realName:realName,
+            phone:phone
+        }
+    })
+
+    if(id === adminUserId){
+
+        const token = jwt.sign({
+            name: name,
+            admin: cryptoPwdString
+        }, 'secret', { expiresIn: "1 days" })
+    
+        // client.set(token, name)
+    
+        client.set(name, token)
+    
+        client.expire(name, 3600)
+
+        return res.json({
+            success:true,
+            token:token
+        })
+    }
+
+    return res.json(result)
+})
 module.exports = router

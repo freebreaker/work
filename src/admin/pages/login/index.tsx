@@ -43,7 +43,7 @@ export class LoginPage extends React.Component<any>{
         localStorage.setItem("token",res.token)
         localStorage.setItem("uploadToken",res.uploadToken)
         localStorage.setItem("adminId",res.adminId)
-        this.props.history.push('/admin/home/petAudit/1')
+        this.props.history.push('/admin/home/adminusers')
       }else{
         message.error(res.msg)
       }

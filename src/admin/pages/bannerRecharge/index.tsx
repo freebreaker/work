@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react'
-import { Button, Table, Drawer, Form, Input, Select, Upload, Icon } from 'antd';
-import { apiGetPictureList, apiPostPicture } from '../api';
+import { Button, Table, Drawer, Form, Input, Select, Upload, Icon, message, Modal } from 'antd';
+import { apiGetPictureList, apiPostPicture, apiEditPicture, apiDeletePicture } from '../api';
 import { hasErrors } from '../../util/hasErrors';
+import { PositonBox } from '../../components/PositionBox';
 
 const { Option } = Select;
 
 const FirstPageBannerWrap = (props: any) => {
 
-    const [tableData,] = useState([]);
+    const [tableData, setTableData] = useState([]);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
@@ -16,10 +17,31 @@ const FirstPageBannerWrap = (props: any) => {
 
     const [fileList, setFileList] = useState()
 
+    const [pageValue, setPageValue] = useState()
+
+    const [edit, setEdit] = useState(false)
+
+    const [editId, setEditId] = useState()
+
+    const [editImgSrc, setEditImgSrc] = useState()
+
+    const [showImage, setShowImage] = useState(false)
+
+    const [imgSrc, setImgSrc] = useState()  // 弹出层图片
+
     useEffect(() => {
         apiGetPictureList().then((res: any) => {
             if (res) {
-                console.log(res)
+                const data = res.map((item: any, index: number) => {
+                    return {
+                        key: item.id,
+                        page: item.page,
+                        position: item.type,
+                        imgSrc: item.imgSrc,
+                        cuser: item.cuser ? item.cuser.name : "----"
+                    }
+                })
+                setTableData(data)
             }
         })
     }, []);
@@ -29,8 +51,18 @@ const FirstPageBannerWrap = (props: any) => {
     }
 
     const delPic = () => {
-        console.log(32)
+        apiDeletePicture(selectedRowKeys).then((res: any) => {
+            if (res) {
+                message.success("删除成功")
+                setTimeout(() => {
+                    window.location.reload()
+                }, 500)
+            } else {
+                message.error("删除失败")
+            }
+        })
     }
+
 
     const onSelectChange = (selectedRowKeys: any) => {
         setSelectedRowKeys(selectedRowKeys)
@@ -40,18 +72,44 @@ const FirstPageBannerWrap = (props: any) => {
         e.preventDefault();
         props.form.validateFields((err: any, values: any) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 const formData = new FormData();
-                console.log(fileList)
-                fileList.forEach((file:any) => {
-                  formData.append('files', file);
-                });
-                formData.append("page",values.page)
-                formData.append("type",values.type)
-                formData.append("title","title")
-                formData.append("content","content")
+                if (fileList) {
+                    fileList.forEach((file: any) => {
+                        formData.append('files', file);
+                    });
+                }
+                formData.append("page", values.page)
+                formData.append("type", values.type)
+                formData.append("title", "title")
+                formData.append("content", "content")
                 // apiPostPicture(values.page,values.type,values.fileList)
-                apiPostPicture(formData)
+
+                if (edit) {
+                    formData.append('editId', editId)
+                    formData.append("imgSrc", editImgSrc)
+                    apiEditPicture(formData).then((res: any) => {
+                        if (res) {
+                            message.success("编辑成功")
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 500)
+                        } else {
+                            message.error("编辑失败")
+                        }
+                    })
+                } else {
+                    apiPostPicture(formData).then((res: any) => {
+                        if (res) {
+                            message.success("添加成功")
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 500)
+                        } else {
+                            message.error("添加失败")
+                        }
+                    })
+                }
+
             }
         });
     };
@@ -63,10 +121,89 @@ const FirstPageBannerWrap = (props: any) => {
             title: '导航栏页面',
             dataIndex: 'page',
             key: 'page',
+            filters: [
+                {
+                    text: '第1页',
+                    value: '1',
+                },
+                {
+                    text: '第2页',
+                    value: '2',
+                },
+            ],
+            filterMultiple: false,
+            onFilter: (value: any, record: any) => {
+                console.log(record,value)
+                return record.page.toString().indexOf(value) === 0
+            },
+            render: (details: any, record: any) => {
+                return (
+                    <span>{`第${record.page}页`}</span>
+                )
+            }
         }, {
             title: '图片位置',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'position',
+            key: 'position',
+            filters: [
+                {
+                    text: 'banner',
+                    value: '1',
+                },
+                {
+                    text: '中间',
+                    value: '2',
+                },
+                {
+                    text: '底部',
+                    value: '3',
+                },
+            ],
+            filterMultiple: false,
+            onFilter: (value: any, record: any) => {
+                console.log(record,value)
+                return record.position.toString().indexOf(value) === 0
+            },
+            render: (details: any, record: any) => {
+                return (
+                    <PositonBox type={record.position - 1} />
+                )
+            }
+        }, {
+            title: '图片',
+            dataIndex: 'imgSrc',
+            key: 'imgSrc',
+            render: (details: any, record: any) => {
+                return (
+                    <img src={`/app/${record.imgSrc}`} alt=""
+                        style={{ width: 70, cursor: "pointer" }}
+                        onClick={() => {
+                            setImgSrc(`/app/${record.imgSrc}`)
+                            setShowImage(true)
+                        }}
+                    />
+                )
+            }
+        }, {
+            title: '操作人',
+            dataIndex: 'cuser',
+            key: 'cuser',
+        }, {
+            title: '操作',
+            render: (details: any, record: any) => {
+                return (
+                    <a onClick={() => {
+                        setAddVisible(true)
+                        setEdit(true)
+                        setEditId(record.key)
+                        setEditImgSrc(record.imgSrc)
+                        props.form.setFieldsValue({
+                            page: record.page,
+                            type: record.position
+                        });
+                    }}>编辑</a>
+                )
+            }
         }]
     const rowSelection = {
         selectedRowKeys,
@@ -130,17 +267,25 @@ const FirstPageBannerWrap = (props: any) => {
             />
             <Drawer
                 width={500}
-                title="添加"
+                title={edit ? "编辑" : "添加"}
                 placement="right"
                 closable={true}
                 onClose={() => {
                     setAddVisible(false)
+                    setEdit(false)
+                    setEditId(undefined)
+                    setEditImgSrc(undefined)
+                    props.form.setFieldsValue({
+                        page: undefined,
+                        type: undefined
+                    });
                 }}
-                visible={!addVisible}
+                visible={addVisible}
             >
                 <Form labelCol={{ span: 5 }} wrapperCol={{ span: 17 }} onSubmit={handleSubmit}>
                     <Form.Item label="导航栏">
                         {props.form.getFieldDecorator('page', {
+                            initialValue: pageValue,
                             rules: [{ required: true, message: '请选择导航栏' }],
                         })(
                             <Select style={{ width: 320 }} onChange={() => { return }}>
@@ -194,6 +339,14 @@ const FirstPageBannerWrap = (props: any) => {
                     </div>
                 </Form>
             </Drawer>
+            <Modal
+                visible={showImage}
+                onCancel={() => setShowImage(false)}
+                footer={null}
+                destroyOnClose={true}
+            >
+                <img src={imgSrc} alt="" style={{ width: "100%" }} />
+            </Modal>
         </div>
     )
 }

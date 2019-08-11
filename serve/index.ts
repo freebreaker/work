@@ -2,13 +2,14 @@ import * as express from 'express'
 
 import { checkRedisTime } from './middleware/checkRedisTime';
 
-import { login, adminusers, logout ,pics} from './routes/index'
+import { login, adminusers, logout ,pics, message} from './routes/index'
 
 import { checkApiAuth } from './middleware/checkApiAuth';
 
 const path = require('path')
 
 import * as connectHistoryApiFallback from 'connect-history-api-fallback';
+import { prisma } from './generated/prisma-client';
 
 const app = express()
 
@@ -34,11 +35,46 @@ app.post(`/login`, login)
 
 app.use(`/logout`,logout)
 
+app.use('/picsList' , async(req , res)=>{
+
+  const Page1Top = await prisma.picses({
+    where:{
+      page:1,
+      type:1
+    }
+  })
+
+  const Page1Middle = await prisma.picses({
+    where:{
+      page:1,
+      type:2
+    }
+  })
+
+  const Page1Bottom = await prisma.picses({
+    where:{
+      page:1,
+      type:3
+    }
+  })
+
+  return res.json({
+    page1:{
+      banner:Page1Top,
+      middle:Page1Middle,
+      bottom:Page1Bottom
+    }
+  })
+
+})
+
 app.use(checkRedisTime)
 
 app.use(`/adminusers`, adminusers)
 
 app.use('/pics',pics)
+
+app.use('/message',message)
 
 app.use((err, req, res, next) =>{
   

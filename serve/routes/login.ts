@@ -1,3 +1,4 @@
+import { cryptoPwd } from './../util/crypto';
 import { options, mac } from './../util/qiniu';
 import { client } from './../util/redis';
 import * as express from 'express'
@@ -7,11 +8,15 @@ import getClientIp from '../util/getIp';
 
 import * as qiniu from 'qiniu';
 
+const crypto = require('crypto');
+
 const router = express.Router()
 
 router.post(`/login`, async (req, res) => {
 
   const { name, pwd } = req.body;
+
+  const cryptoPwdString = cryptoPwd(pwd)
 
   const result = await prisma.adminUsers({
 
@@ -19,7 +24,7 @@ router.post(`/login`, async (req, res) => {
 
       name: name,
 
-      pwd: pwd
+      pwd: cryptoPwdString
 
     }
 
@@ -29,7 +34,7 @@ router.post(`/login`, async (req, res) => {
 
     name: name,
 
-    admin: pwd
+    admin: cryptoPwdString
 
   }
 
@@ -62,7 +67,7 @@ router.post(`/login`, async (req, res) => {
 
         client.set(name, token)
 
-        client.expire(name, 3600)
+        client.expire(name, 7200)
 
         resolve(reply)
 
@@ -70,11 +75,37 @@ router.post(`/login`, async (req, res) => {
 
     })
 
+    // let Reply = await promise
+
+    // if (Reply) {
+
+    //   return res.json({ status: 200, token: token, msg: "已在其他地方登录" })
+
+    // } else {
+
+    //   await prisma.updateChongduAdmin({
+    //     where: {
+    //       id: result[0].id
+    //     },
+    //     data: {
+    //       lastLoginTime: new Date().getTime().toString(),
+    //       ip: getClientIp(req)
+    //     }
+    //   })
+
+    //   const putPolicy = new qiniu.rs.PutPolicy(options);
+
+    //   const uploadToken = putPolicy.uploadToken(mac);
+
+    //   return res.json({ status: 200, token: result[0] ? token : "", msg: "登录成功", uploadToken: uploadToken })
+
+    // }
+
     await prisma.updateAdminUser({
-      where:{
-        id:result[0].id
+      where: {
+        id: result[0].id
       },
-      data:{
+      data: {
         name:name
       }
     })

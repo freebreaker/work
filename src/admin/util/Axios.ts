@@ -21,7 +21,7 @@ axios.interceptors.response.use(
             window.localStorage.clear()
             Modal.warning({
                 title:res.data.msg,
-                onOk:()=>window.location.href = "/"
+                onOk:()=>window.location.href = "/admin"
             })
         }
         if (res.data.status === 401 && !res.data.success) {  // 没有权限

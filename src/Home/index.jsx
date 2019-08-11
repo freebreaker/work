@@ -3,7 +3,7 @@
 import React from 'react';
 import { enquireScreen } from 'enquire-js';
 
-import Nav0 from './Nav0';
+
 import Banner1 from './Banner1';
 import Content0 from './Content0';
 import Content5 from './Content5';
@@ -19,7 +19,8 @@ import {
   Footer10DataSource,
 } from './data.source';
 import './less/antMotionStyle.less';
-import { getBanners } from './ajax';
+import { getPics } from './ajax';
+
 
 let isMobile;
 enquireScreen((b) => {
@@ -27,18 +28,25 @@ enquireScreen((b) => {
 });
 
 // const { location } = window;
-
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isMobile,
+      Banner10DataSource:{
+        wrapper: { className: 'banner1' },
+        BannerAnim:{
+          children:[]
+        }
+      }
       // show: !location.port, // 如果不是 dva 2.0 请删除
     };
   }
 
   componentDidMount() {
     // 适配手机屏幕;
+
+    console.log(this.props)
     enquireScreen((b) => {
       this.setState({ isMobile: !!b });
     });
@@ -53,18 +61,49 @@ export default class Home extends React.Component {
     //   }, 500);
     // }
     /* 如果不是 dva 2.0 请删除 end */
-    getBanners(2).then((res)=>{
+    getPics().then((res) => {
       console.log(res)
+      if(res){
+        const newData = res.page1.banner.map((item,index)=>{
+          return {
+            name: `elem${index}`,
+            BannerElement: { className: 'banner-user-elem' },
+            textWrapper: { className: 'banner1-text-wrapper' },
+            bg: { className: 'bg bg0' },
+            imgSrc:item.imgSrc,
+            title: {
+              className: 'banner1-title',
+              children:
+                'https://zos.alipayobjects.com/rmsportal/HqnZZjBjWRbjyMr.png',
+            },
+            content: {
+              className: 'banner1-content',
+              children: '一个高效的页面动画解决方案',
+            },
+            button: { className: 'banner1-button', children: 'Learn More' },
+          }
+        })
+
+        this.setState({
+          Banner10DataSource:{
+            wrapper: { className: 'banner1' },
+            BannerAnim:{
+              children:newData
+            }
+          }
+        })
+      }
     })
 
   }
 
   render() {
+
     const children = [
       <Banner1
         id="Banner1_0"
         key="Banner1_0"
-        dataSource={Banner10DataSource}
+        dataSource={this.state.Banner10DataSource}
         isMobile={this.state.isMobile}
       />,
       <Content0
@@ -106,3 +145,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+export default Home

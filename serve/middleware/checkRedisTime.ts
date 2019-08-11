@@ -44,7 +44,7 @@ export const checkRedisTime = async (req, res, next) => {
 
         if(Reply){
             if(Reply === token){
-                client.expire(name,3600)
+                client.expire(name,7200)
                 next()
             }else{
                 return res.json({

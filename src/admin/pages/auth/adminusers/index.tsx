@@ -7,6 +7,11 @@ import './index.less';
 import axios from '../../../util/Axios';
 import { RoleChildrenTable } from './roleChildrenTable';
 import moment from 'moment'
+import 'moment/locale/zh-cn';
+
+import { apiAddAdminUsers, apiEditAdminUser } from '../../api';
+
+moment.locale('zh-cn');
 
 const { Option } = Select;
 
@@ -49,7 +54,11 @@ export default class AdminUsersPage extends React.Component<any, any> {
     adminId: 1,
     name: "",
     pwd: "",
-    groupId: 1
+    realName: "",
+    phone: "",
+    groupId: 1,
+    editPasswordAndRealName: false,
+    editId:0
   };
 
   public componentDidMount() {
@@ -63,8 +72,10 @@ export default class AdminUsersPage extends React.Component<any, any> {
           return {
             key: item.id,  // key 应带对应data id 
             name: item.name,
-            createdAt:item.createdAt,
-            lastLoginAt:item.lastLoginAt
+            realName: item.realName,
+            phone: item.phone,
+            createdAt: moment(item.createdAt).format('LLLL'),
+            lastLoginAt: moment(item.lastLoginAt).format('LLLL'),
           }
         })
         That.setState({
@@ -94,27 +105,53 @@ export default class AdminUsersPage extends React.Component<any, any> {
   }
 
   public addRole = () => {
-    this.showDrawer()
+    this.setState({
+      visible: true,
+      editPasswordAndRealName: false,
+      name: "",
+      pwd: undefined,
+      realName: "",
+      phone: ""
+    })
   }
 
   public addAdminUser = () => {
-    const { name, pwd, groupId } = this.state
-    axios({
-      method: "post",
-      url: `/adminusers/add`,
-      data: {
-        name,
-        pwd,
-        groupId
-      }
-    }).then((res: any) => {
+    // const { name, pwd, groupId } = this.state
+    const { name, pwd, realName, phone, editPasswordAndRealName ,editId} = this.state
+    // axios({
+    //   method: "post",
+    //   url: `/adminusers/add`,
+    //   data: {
+    //     name,
+    //     pwd,
+    //     groupId
+    //   }
+    // })
+
+    if (name === "") {
+      message.error("用户名不能为空！")
+      return
+    }
+
+    if (pwd === "") {
+      message.error("密码不能为空！")
+      return
+    }
+
+    const P = editPasswordAndRealName ? apiEditAdminUser(editId,name, pwd, realName, phone) : apiAddAdminUsers(name, pwd, realName, phone)
+
+
+    P.then((res: any) => {
       if (res) {
-        message.success("添加成功")
+        message.success("操作成功")
+        if(res.success){
+          localStorage.setItem("token",res.token)
+        }
         setTimeout(() => {
           window.location.reload()
         }, 500);
       } else {
-        message.error("删除失败")
+        message.error("操作失败")
       }
     })
   }
@@ -166,28 +203,13 @@ export default class AdminUsersPage extends React.Component<any, any> {
 
   }
 
-  public showDrawer = () => {
-    const That = this
-    axios({
-      method: "get",
-      url: `/role/list`
-    }).then((res) => {
-      if (res) {
-        That.setState({
-          groupData: res,
-          visible: true,
-        })
-      }
-    })
-  };
-
   public deleteRole = () => {
 
     const selectedRowKeys = this.state.selectedRowKeys
 
     axios({
       method: "post",
-      url: "/user/delete",
+      url: "/adminusers/delete",
       data: {
         ids: selectedRowKeys
       }
@@ -308,20 +330,28 @@ export default class AdminUsersPage extends React.Component<any, any> {
   }
 
   public editGroup = (record: any) => {
-    console.log(record)
-    const That = this
-    axios({
-      method: "get",
-      url: `/role/list`
-    }).then((res) => {
-      if (res) {
-        That.setState({
-          editGroupModal: true,
-          editGroupData: res,
-          adminId: record.key
-        })
-      }
+    this.setState({
+      visible: true,
+      editId:parseInt(record.key,10),
+      editPasswordAndRealName: true,
+      name: record.name,
+      pwd: record.pwd,
+      realName: record.realName,
+      phone: record.phone
     })
+    // const That = this
+    // axios({
+    //   method: "get",
+    //   url: `/role/list`
+    // }).then((res) => {
+    //   if (res) {
+    //     That.setState({
+    //       editGroupModal: true,
+    //       editGroupData: res,
+    //       adminId: record.key
+    //     })
+    //   }
+    // })
   }
 
   public handleOk = () => {
@@ -335,12 +365,12 @@ export default class AdminUsersPage extends React.Component<any, any> {
       }
     }).then((res) => {
       if (res) {
-        message.success("修改成功")
+        message.success("操作成功")
         setTimeout(() => {
           window.location.reload()
         }, 500);
       } else {
-        message.error("修改失败")
+        message.error("操作失败")
       }
     })
   }
@@ -373,20 +403,39 @@ export default class AdminUsersPage extends React.Component<any, any> {
     filteredInfo = filteredInfo || {};
 
     const columns = [
-    {
-      title: '用户名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-    }, {
-      title: '最后登陆时间',
-      dataIndex: 'lastLoginAt',
-      key: 'lastLoginAt',
-    }
+      {
+        title: '用户名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+      }, {
+        title: '真实姓名',
+        dataIndex: 'realName',
+        key: 'realName',
+      }, {
+        title: '手机号',
+        dataIndex: 'phone',
+        key: 'phone',
+      }, {
+        title: '最后登陆时间',
+        dataIndex: 'lastLoginAt',
+        key: 'lastLoginAt',
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        key: 'operation',
+        render: (text: any, record: any) => {
+          return (
+            <span>
+              <a href="javascript:;" onClick={this.editGroup.bind(this, record)} style={{ marginRight: 20 }}>编辑</a>
+            </span>
+          )
+        }
+      }
       // {
       //   title: '昵称',
       //   dataIndex: 'nickname',
@@ -491,21 +540,36 @@ export default class AdminUsersPage extends React.Component<any, any> {
         <div>
           <Drawer
             width={500}
-            title="添加用户"
+            title={this.state.editPasswordAndRealName ? "编辑用户" : "添加用户"}
             placement="right"
             closable={true}
             onClose={() => { this.setState({ visible: false, files: [] }) }}
             visible={this.state.visible}
           >
             <div>
-              <span>用户名：</span>
-              <Input style={{ width: "70%" }} placeholder="请输入用户名" onChange={(e: any) => { this.setState({ name: e.target.value }) }} />
+              <span>设用户名：</span>
+              <Input style={{ width: "70%" }}
+                required={true} placeholder="请输入用户名"
+                value={this.state.name}
+                onChange={(e: any) => { this.setState({ name: e.target.value }) }} />
             </div>
             <div style={{ margin: "25px 0" }}>
-              <span>设密码：</span>
-              <Input style={{ width: "70%" }} placeholder="请输入密码" onChange={(e: any) => { this.setState({ pwd: e.target.value }) }} />
+              <span>登录密码：</span>
+              <Input.Password style={{ width: "70%" }} required={true} placeholder="请输入密码" onChange={(e: any) => { this.setState({ pwd: e.target.value }) }} />
             </div>
             <div>
+              <span>真实姓名：</span>
+              <Input style={{ width: "70%" }} placeholder="请输入真实姓名"
+                value={this.state.realName}
+                onChange={(e: any) => { this.setState({ realName: e.target.value }) }} />
+            </div>
+            <div style={{ margin: "25px 0" }}>
+              <span>设手机号：</span>
+              <Input style={{ width: "70%" }} placeholder="请输入手机号"
+                value={this.state.phone}
+                onChange={(e: any) => { this.setState({ phone: e.target.value }) }} />
+            </div>
+            {/* <div>
               <span>设角色：</span>
               <Radio.Group defaultValue={1} buttonStyle="solid"
                 onChange={this.addRadioChange.bind(this)}
@@ -514,7 +578,7 @@ export default class AdminUsersPage extends React.Component<any, any> {
                   addRadios
                 }
               </Radio.Group>
-            </div>
+            </div> */}
 
             <div
               style={{
