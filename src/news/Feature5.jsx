@@ -14,6 +14,9 @@ class Content7 extends React.Component {
     };
   }
 
+
+  
+
   onChange = (key) => {
     this.setState({ current: parseFloat(key) });
   };
