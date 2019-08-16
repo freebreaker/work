@@ -1,17 +1,40 @@
 {
-  "name": "my-app",
+  "name": "work",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.1.0"
+    "@types/braft-editor": "^1.9.3",
+    "@types/md5": "^2.1.33",
+    "@types/node": "^12.6.9",
+    "@types/qiniu-js": "^2.5.0",
+    "@types/react-router-dom": "^4.3.4",
+    "antd": "^3.20.7",
+    "axios": "^0.19.0",
+    "bizcharts": "^3.5.4-beta.0",
+    "customize-cra": "^0.4.1",
+    "enquire-js": "^0.2.1",
+    "is-wsl": "^2.1.0",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "md5": "^2.2.1",
+    "moment": "^2.24.0",
+    "qiniu-js": "^2.5.4",
+    "rc-banner-anim": "^2.3.0",
+    "rc-queue-anim": "^1.6.12",
+    "rc-scroll-anim": "^2.5.9",
+    "rc-tween-one": "^2.4.1",
+    "react": "^16.8.6",
+    "react-app-rewired": "^2.1.3",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "typescript": "^3.4.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +50,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.12.0",
+    "braft-editor": "^2.3.7",
+    "css-loader": "^3.2.0",
+    "react-quill": "^1.3.3"
+  },
+  "proxy": "http://localhost:8081"
 }

@@ -1,0 +1,83 @@
+type AdminUser @db(name:"db_adminuser") {
+    id:Int! @id
+    # 用户名
+    name: String
+    # 密码
+    pwd:String
+    # 创建日期
+    createdAt: DateTime! @createdAt
+    realName:String
+    phone:String
+    role:Role
+    # 更新日期
+    lastLoginAt:DateTime! @updatedAt
+    posts: [Post!]!
+}
+
+type Role @db(name:"db_role"){
+  id:Int! @id
+  name:String
+}
+
+type Post {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  title: String!
+  published: Boolean! @default(value: false)
+  author: AdminUser!
+}
+
+type Pics @db(name:"db_pics") {
+  id:Int! @id
+  page:Int!
+  # 1 banner 2 中间 3.下面 ....递增
+  type:Int!
+  imgSrc:String
+  title:String
+  text:String
+  cuser:AdminUser
+  # 创建日期
+  createdAt: DateTime! @createdAt
+  # 更新日期
+  lastModifiedAt:DateTime! @updatedAt
+}
+
+
+type Msg @db(name:"db_msgs") {
+
+  id:Int! @id
+
+  name:String! 
+
+  phone:String!
+
+  message:String!
+
+  createdAt: DateTime! @createdAt
+
+  remarks:String
+
+  cuser:AdminUser
+
+  deal: Boolean @default(value: false)
+
+  dealTime:DateTime
+
+}
+
+
+type News @db(name:"db_news"){
+
+  id:Int! @id
+
+  title:String!
+
+  content:String!
+
+  createdAt: DateTime! @createdAt
+
+  lastModifiedAt:DateTime! @updatedAt
+
+  cuser:AdminUser
+
+}
