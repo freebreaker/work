@@ -1,5 +1,5 @@
-  {
-    "compilerOptions": {
-      "lib": ["es2016", "esnext.asynciterable","dom"]
-    }
+{
+  "compilerOptions": {
+    "lib": ["es2016", "esnext.asynciterable","dom"]
   }
+}

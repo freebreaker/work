@@ -22,13 +22,13 @@ const MessageWrap = (props: any) => {
 
     const [addVisible, setAddVisible] = useState(false)
 
-    const [fileList, setFileList] = useState()
+    const [fileList, setFileList] = useState<any[]>([])
 
     const [deal, setDeal] = useState(false)
 
     const [edit, setEdit] = useState(false)
 
-    const [editId, setEditId] = useState()
+    const [editId, setEditId] = useState('')
 
     const [editImgSrc, setEditImgSrc] = useState()
 
@@ -224,7 +224,7 @@ const MessageWrap = (props: any) => {
                 onClose={() => {
                     setAddVisible(false)
                     setEdit(false)
-                    setEditId(undefined)
+                    setEditId('')
                     props.form.setFieldsValue({
                         deal: false,
                         remark: ""

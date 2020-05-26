@@ -13,7 +13,7 @@ const AdminPage: React.FC = () => {
             <Switch>
               <Route exact={true} path="/admin" component={LoginPage} />
               <Route exact={true} path="/login" component={LoginPage} />
-              <Route exact={false} path="/admin/home" component={AdminHome} />
+              <Route exact={false} path="/" component={AdminHome} />
             </Switch>
           </BrowserRouter>
         </div>

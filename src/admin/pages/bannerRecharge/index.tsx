@@ -15,19 +15,19 @@ const FirstPageBannerWrap = (props: any) => {
 
     const [addVisible, setAddVisible] = useState(false)
 
-    const [fileList, setFileList] = useState()
+    const [fileList, setFileList] = useState<any[]>([])
 
     const [pageValue, setPageValue] = useState()
 
     const [edit, setEdit] = useState(false)
 
-    const [editId, setEditId] = useState()
+    const [editId, setEditId] = useState('')
 
-    const [editImgSrc, setEditImgSrc] = useState()
+    const [editImgSrc, setEditImgSrc] = useState('')
 
     const [showImage, setShowImage] = useState(false)
 
-    const [imgSrc, setImgSrc] = useState()  // 弹出层图片
+    const [imgSrc, setImgSrc] = useState('')  // 弹出层图片
 
     useEffect(() => {
         apiGetPictureList().then((res: any) => {
@@ -273,8 +273,8 @@ const FirstPageBannerWrap = (props: any) => {
                 onClose={() => {
                     setAddVisible(false)
                     setEdit(false)
-                    setEditId(undefined)
-                    setEditImgSrc(undefined)
+                    setEditId('')
+                    setEditImgSrc('')
                     props.form.setFieldsValue({
                         page: undefined,
                         type: undefined

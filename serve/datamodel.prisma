@@ -64,3 +64,4 @@ type Msg @db(name:"db_msgs") {
   dealTime:DateTime
 
 }
+
