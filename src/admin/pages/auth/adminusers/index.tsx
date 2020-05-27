@@ -58,24 +58,23 @@ export default class AdminUsersPage extends React.Component<any, any> {
     phone: "",
     groupId: 1,
     editPasswordAndRealName: false,
-    editId:0
+    editId: 0
   };
 
   public componentDidMount() {
     const That = this
     axios({
       method: "get",
-      url: "/adminusers/list"
+      url: "/admin/users"
     }).then((res: any) => {
-      if (res.length > 0) {
-        const tableData = res.map((item: any, index: number) => {
+      if (res.data.length > 0) {
+        const tableData = res.data.map((item: any, index: number) => {
           return {
             key: item.id,  // key 应带对应data id 
             name: item.name,
-            realName: item.realName,
             phone: item.phone,
-            createdAt: moment(item.createdAt).format('LLLL'),
-            lastLoginAt: moment(item.lastLoginAt).format('LLLL'),
+            createTime: moment(item.createTime).format('LLLL'),
+            updateTime: moment(item.updateTime).format('LLLL'),
           }
         })
         That.setState({
@@ -117,7 +116,7 @@ export default class AdminUsersPage extends React.Component<any, any> {
 
   public addAdminUser = () => {
     // const { name, pwd, groupId } = this.state
-    const { name, pwd, realName, phone, editPasswordAndRealName ,editId} = this.state
+    const { name, pwd, phone, editPasswordAndRealName, editId } = this.state
     // axios({
     //   method: "post",
     //   url: `/adminusers/add`,
@@ -128,24 +127,21 @@ export default class AdminUsersPage extends React.Component<any, any> {
     //   }
     // })
 
-    if (name === "") {
-      message.error("用户名不能为空！")
-      return
-    }
-
     if (pwd === "") {
       message.error("密码不能为空！")
       return
     }
 
-    const P = editPasswordAndRealName ? apiEditAdminUser(editId,name, pwd, realName, phone) : apiAddAdminUsers(name, pwd, realName, phone)
+    // phone check
+
+    const P = editPasswordAndRealName ? apiEditAdminUser(editId, name, pwd, phone) : apiAddAdminUsers(name, pwd, phone)
 
 
     P.then((res: any) => {
       if (res) {
         message.success("操作成功")
-        if(res.success){
-          localStorage.setItem("token",res.token)
+        if (res.success) {
+          localStorage.setItem("token", res.token)
         }
         setTimeout(() => {
           window.location.reload()
@@ -209,7 +205,7 @@ export default class AdminUsersPage extends React.Component<any, any> {
 
     axios({
       method: "post",
-      url: "/adminusers/delete",
+      url: "/admin/delete",
       data: {
         ids: selectedRowKeys
       }
@@ -332,7 +328,7 @@ export default class AdminUsersPage extends React.Component<any, any> {
   public editGroup = (record: any) => {
     this.setState({
       visible: true,
-      editId:parseInt(record.key,10),
+      editId: parseInt(record.key, 10),
       editPasswordAndRealName: true,
       name: record.name,
       pwd: record.pwd,
@@ -409,21 +405,18 @@ export default class AdminUsersPage extends React.Component<any, any> {
         key: 'name',
       },
       {
-        title: '创建时间',
-        dataIndex: 'createdAt',
-        key: 'createdAt',
-      }, {
-        title: '真实姓名',
-        dataIndex: 'realName',
-        key: 'realName',
-      }, {
         title: '手机号',
         dataIndex: 'phone',
         key: 'phone',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
       }, {
-        title: '最后登陆时间',
-        dataIndex: 'lastLoginAt',
-        key: 'lastLoginAt',
+        title: '更新时间',
+        dataIndex: 'updateTime',
+        key: 'updateTime',
       }, {
         title: '操作',
         dataIndex: 'operation',
@@ -431,7 +424,7 @@ export default class AdminUsersPage extends React.Component<any, any> {
         render: (text: any, record: any) => {
           return (
             <span>
-              <a href="javascript:;" onClick={this.editGroup.bind(this, record)} style={{ marginRight: 20 }}>编辑</a>
+              <a onClick={this.editGroup.bind(this, record)} style={{ marginRight: 20 }}>编辑</a>
             </span>
           )
         }
@@ -546,12 +539,18 @@ export default class AdminUsersPage extends React.Component<any, any> {
             onClose={() => { this.setState({ visible: false, files: [] }) }}
             visible={this.state.visible}
           >
-            <div>
+            {/* <div>
               <span>设用户名：</span>
               <Input style={{ width: "70%" }}
                 required={true} placeholder="请输入用户名"
                 value={this.state.name}
                 onChange={(e: any) => { this.setState({ name: e.target.value }) }} />
+            </div> */}
+            <div style={{ margin: "25px 0" }}>
+              <span>设手机号：</span>
+              <Input style={{ width: "70%" }} placeholder="请输入手机号"
+                value={this.state.phone}
+                onChange={(e: any) => { this.setState({ phone: e.target.value }) }} />
             </div>
             <div style={{ margin: "25px 0" }}>
               <span>登录密码：</span>
@@ -560,14 +559,8 @@ export default class AdminUsersPage extends React.Component<any, any> {
             <div>
               <span>真实姓名：</span>
               <Input style={{ width: "70%" }} placeholder="请输入真实姓名"
-                value={this.state.realName}
-                onChange={(e: any) => { this.setState({ realName: e.target.value }) }} />
-            </div>
-            <div style={{ margin: "25px 0" }}>
-              <span>设手机号：</span>
-              <Input style={{ width: "70%" }} placeholder="请输入手机号"
-                value={this.state.phone}
-                onChange={(e: any) => { this.setState({ phone: e.target.value }) }} />
+                value={this.state.name}
+                onChange={(e: any) => { this.setState({ name: e.target.value }) }} />
             </div>
             {/* <div>
               <span>设角色：</span>

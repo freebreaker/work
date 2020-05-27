@@ -112,7 +112,7 @@ export class AdminHome extends React.Component<any>{
               openKeys={this.state.openKeys}
               onOpenChange={this.onOpenChange}
             >
-              {/* <SubMenu
+              <SubMenu
                 key="sub1"
                 title={<span><Icon type="paper-clip" /><span>后台用户</span></span>}
               >
@@ -121,7 +121,7 @@ export class AdminHome extends React.Component<any>{
                     pathname: `/admin/home/adminusers`
                   }} >用户列表</Link>
                 </Menu.Item>
-              </SubMenu> */}
+              </SubMenu>
               <SubMenu
                 key="sub3"
                 title={<span><Icon type="paper-clip" /><span>图片管理</span></span>}

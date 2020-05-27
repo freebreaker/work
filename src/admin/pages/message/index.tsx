@@ -46,8 +46,8 @@ const MessageWrap = (props: any) => {
                         phone: item.phone,
                         message: item.message,
                         createdAt: item.createdAt,
-                        cuser:item.cuser?item.cuser.name:"----",
-                        dealTime:item.dealTime,
+                        cuser: item.cuser ? item.cuser.name : "----",
+                        dealTime: item.dealTime,
                         deal: item.deal,
                         remark: item.remarks
                     }
@@ -100,15 +100,17 @@ const MessageWrap = (props: any) => {
     const hasSelected = selectedRowKeys.length > 0;
 
     const columns = [
+        // {
+        //     title: '留言者姓名',
+        //     dataIndex: 'name',
+        //     key: 'name',
+        // }, 
+        // {
+        //     title: '留言者手机号',
+        //     dataIndex: 'phone',
+        //     key: 'phone',
+        // }, 
         {
-            title: '留言者姓名',
-            dataIndex: 'name',
-            key: 'name',
-        }, {
-            title: '留言者手机号',
-            dataIndex: 'phone',
-            key: 'phone',
-        }, {
             title: '留言内容',
             dataIndex: 'message',
             key: 'message',
@@ -119,18 +121,18 @@ const MessageWrap = (props: any) => {
             render: (details: any, record: any) => {
                 return <span> {moment(record.createdAt).format('LLLL')}</span>
             }
-        },{
+        }, {
             title: '处理时间',
             dataIndex: 'dealTime',
             key: 'dealTime',
             render: (details: any, record: any) => {
-                return <span >{record.dealTime?moment(record.dealTime).format('LLLL'):"----"}</span>
+                return <span >{record.dealTime ? moment(record.dealTime).format('LLLL') : "----"}</span>
             }
         }, {
             title: '处理人',
             dataIndex: 'cuser',
             key: 'cuser',
-        },{
+        }, {
             title: '备注',
             dataIndex: 'remark',
             key: 'remark',

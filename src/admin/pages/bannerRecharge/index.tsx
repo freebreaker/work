@@ -7,6 +7,8 @@ import { PositonBox } from '../../components/PositionBox';
 
 const { Option } = Select;
 
+const { TextArea } = Input;
+
 const FirstPageBannerWrap = (props: any) => {
 
     const [tableData, setTableData] = useState([]);
@@ -31,14 +33,14 @@ const FirstPageBannerWrap = (props: any) => {
 
     useEffect(() => {
         apiGetPictureList().then((res: any) => {
-            if (res) {
-                const data = res.map((item: any, index: number) => {
+            if (res.data.length > 0) {
+                const data = res.data.map((item: any, index: number) => {
                     return {
                         key: item.id,
-                        page: item.page,
-                        position: item.type,
-                        imgSrc: item.imgSrc,
-                        cuser: item.cuser ? item.cuser.name : "----"
+                        position: item.position,
+                        imgSrc: item.path,
+                        description: item.description ? item.description : "----",
+                        link: item.link ? item.link : '----'
                     }
                 })
                 setTableData(data)
@@ -78,10 +80,9 @@ const FirstPageBannerWrap = (props: any) => {
                         formData.append('files', file);
                     });
                 }
-                formData.append("page", values.page)
-                formData.append("type", values.type)
-                formData.append("title", "title")
-                formData.append("content", "content")
+                formData.append("position", values.type)
+                formData.append("description", values.description)
+                formData.append("link", values.link)
                 // apiPostPicture(values.page,values.type,values.fileList)
 
                 if (edit) {
@@ -117,31 +118,32 @@ const FirstPageBannerWrap = (props: any) => {
     const hasSelected = selectedRowKeys.length > 0;
 
     const columns = [
+        // {
+        //     title: '导航栏页面',
+        //     dataIndex: 'page',
+        //     key: 'page',
+        //     filters: [
+        //         {
+        //             text: '第1页',
+        //             value: '1',
+        //         },
+        //         {
+        //             text: '第2页',
+        //             value: '2',
+        //         },
+        //     ],
+        //     filterMultiple: false,
+        //     onFilter: (value: any, record: any) => {
+        //         console.log(record, value)
+        //         return record.page.toString().indexOf(value) === 0
+        //     },
+        //     render: (details: any, record: any) => {
+        //         return (
+        //             <span>{`第${record.page}页`}</span>
+        //         )
+        //     }
+        // }, 
         {
-            title: '导航栏页面',
-            dataIndex: 'page',
-            key: 'page',
-            filters: [
-                {
-                    text: '第1页',
-                    value: '1',
-                },
-                {
-                    text: '第2页',
-                    value: '2',
-                },
-            ],
-            filterMultiple: false,
-            onFilter: (value: any, record: any) => {
-                console.log(record,value)
-                return record.page.toString().indexOf(value) === 0
-            },
-            render: (details: any, record: any) => {
-                return (
-                    <span>{`第${record.page}页`}</span>
-                )
-            }
-        }, {
             title: '图片位置',
             dataIndex: 'position',
             key: 'position',
@@ -161,7 +163,7 @@ const FirstPageBannerWrap = (props: any) => {
             ],
             filterMultiple: false,
             onFilter: (value: any, record: any) => {
-                console.log(record,value)
+                console.log(record, value)
                 return record.position.toString().indexOf(value) === 0
             },
             render: (details: any, record: any) => {
@@ -175,19 +177,23 @@ const FirstPageBannerWrap = (props: any) => {
             key: 'imgSrc',
             render: (details: any, record: any) => {
                 return (
-                    <img src={`/app/${record.imgSrc}`} alt=""
+                    <img src={`${record.imgSrc}`} alt=""
                         style={{ width: 70, cursor: "pointer" }}
                         onClick={() => {
-                            setImgSrc(`/app/${record.imgSrc}`)
+                            setImgSrc(`${record.imgSrc}`)
                             setShowImage(true)
                         }}
                     />
                 )
             }
         }, {
-            title: '操作人',
-            dataIndex: 'cuser',
-            key: 'cuser',
+            title: '描述',
+            dataIndex: 'description',
+            key: 'description',
+        }, {
+            title: '链接',
+            dataIndex: 'link',
+            key: 'link',
         }, {
             title: '操作',
             render: (details: any, record: any) => {
@@ -283,7 +289,7 @@ const FirstPageBannerWrap = (props: any) => {
                 visible={addVisible}
             >
                 <Form labelCol={{ span: 5 }} wrapperCol={{ span: 17 }} onSubmit={handleSubmit}>
-                    <Form.Item label="导航栏">
+                    {/* <Form.Item label="导航栏">
                         {props.form.getFieldDecorator('page', {
                             initialValue: pageValue,
                             rules: [{ required: true, message: '请选择导航栏' }],
@@ -293,7 +299,7 @@ const FirstPageBannerWrap = (props: any) => {
                                 <Option value={2}>第二页</Option>
                             </Select>
                         )}
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item label="位置">
                         {props.form.getFieldDecorator('type', {
                             rules: [{ required: true, message: '请选择位置' }],
@@ -303,6 +309,18 @@ const FirstPageBannerWrap = (props: any) => {
                                 <Option value={2}>中间</Option>
                                 <Option value={3}>底部</Option>
                             </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="描述">
+                        {props.form.getFieldDecorator('description', {
+                        })(
+                            <TextArea rows={6} />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="链接">
+                        {props.form.getFieldDecorator('link', {
+                        })(
+                            <Input type='text' />
                         )}
                     </Form.Item>
                     <Form.Item label="图片">
