@@ -7,6 +7,7 @@ import axios from '../../util/Axios';
 
 import bg from "../../images/main/icon_logo2.png"
 import Message from '../message';
+import VideoPage from '../videoRecharge';
 
 const AdminUsersPage = lazy(() => import('../auth/adminusers'))
 const FirstPageBanner = lazy(() => import('../bannerRecharge'))
@@ -46,16 +47,19 @@ export class AdminHome extends React.Component<any>{
   }
 
   public logout = () => {
-    axios({
-      method: "post",
-      url: "/logout",
-    }).then((res: any) => {
-      if (res.status === 200) {
-        message.success(res.msg)
-        localStorage.clear()
-        this.props.history.push('/admin')
-      }
-    })
+    // axios({
+    //   method: "post",
+    //   url: "/logout",
+    // }).then((res: any) => {
+    //   if (res.status === 200) {
+    //     message.success(res.msg)
+    //     localStorage.clear()
+    //     this.props.history.push('/admin')
+    //   }
+    // })
+    localStorage.clear()
+    // this.props.history.push('/')
+    window.location.href = '/'
   }
 
   public onOpenChange = (openKeys: any) => {
@@ -134,6 +138,16 @@ export class AdminHome extends React.Component<any>{
               </SubMenu>
               <SubMenu
                 key="sub4"
+                title={<span><Icon type="paper-clip" /><span>视频管理</span></span>}
+              >
+                <Menu.Item key="18" onClick={() => this.setSelectedKeyToLocal("18")}>
+                  <Link to={{
+                    pathname: `/admin/home/video`
+                  }} >视频</Link>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu
+                key="sub5"
                 title={<span><Icon type="paper-clip" /><span>留言管理</span></span>}
               >
                 <Menu.Item key="8" onClick={() => this.setSelectedKeyToLocal("8")}>
@@ -198,6 +212,7 @@ export class AdminHome extends React.Component<any>{
                 <Route path="/admin/home/role" component={RolePage} /> */}
                 <Route path="/admin/home/adminusers" component={AdminUsersPage} />
                 <Route path="/admin/home/picture1" component={FirstPageBanner} />
+                <Route path="/admin/home/video" component={VideoPage} />
                 <Route path="/admin/home/message" component={Message} />
                 {/* <Route path="/admin/home/password" component={PasswordPage} />
                 <Route path="/admin/home/userlist/:page" component={UserList} />

@@ -12,6 +12,30 @@ export const apiGetPictureList = async () => {
     })
 }
 
+export const apiGetVideoList = async () => {
+    return await axios({
+        method: "get",
+        url: `/video/list`,
+    })
+}
+
+export const apiAddVideo = async (formData: FormData) => {
+    return await axios({
+        method: "post",
+        url: `/video/add`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+    })
+}
+
+export const apiEditVideo = async (formData: FormData) => {
+    return await axios({
+        method: "post",
+        url: `/video/edit`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+    })
+}
 
 export const apiPostPicture = async (formData: FormData) => {
     return await axios({

@@ -42,14 +42,12 @@ const MessageWrap = (props: any) => {
                 const data = res.data.map((item: any, index: number) => {
                     return {
                         key: item.id,
-                        name: item.name,
-                        phone: item.phone,
-                        message: item.message,
-                        createdAt: item.createdAt,
-                        cuser: item.cuser ? item.cuser.name : "----",
-                        dealTime: item.dealTime,
-                        deal: item.deal,
-                        remark: item.remarks
+                        // name: item.name,
+                        // phone: item.phone,
+                        message: item.content,
+                        createdAt: item.createTime,
+                        // cuser: item.cuser ? item.cuser.name : "----",
+                        // dealTime: item.updateTime,
                     }
                 })
                 setTableData(data)
@@ -121,40 +119,35 @@ const MessageWrap = (props: any) => {
             render: (details: any, record: any) => {
                 return <span> {moment(record.createdAt).format('LLLL')}</span>
             }
-        }, {
-            title: '处理时间',
-            dataIndex: 'dealTime',
-            key: 'dealTime',
-            render: (details: any, record: any) => {
-                return <span >{record.dealTime ? moment(record.dealTime).format('LLLL') : "----"}</span>
-            }
-        }, {
-            title: '处理人',
-            dataIndex: 'cuser',
-            key: 'cuser',
-        }, {
-            title: '备注',
-            dataIndex: 'remark',
-            key: 'remark',
-        }, {
-            title: '操作',
-            render: (details: any, record: any) => {
-                return (
-                    <a
-                        onClick={() => {
-                            setAddVisible(true)
-                            setEdit(true)
-                            setEditId(record.key)
-                            props.form.setFieldsValue({
-                                deal: record.deal ? record.deal : false,
-                                remark: record.remark
-                            });
-                        }}>
-                        <DealBox type={record.deal ? 1 : 0} />
-                    </a>
-                )
-            }
-        }]
+        }, 
+        // {
+        //     title: '处理时间',
+        //     dataIndex: 'dealTime',
+        //     key: 'dealTime',
+        //     render: (details: any, record: any) => {
+        //         return <span >{record.dealTime ? moment(record.dealTime).format('LLLL') : "----"}</span>
+        //     }
+        // },
+        //  {
+        //     title: '操作',
+        //     render: (details: any, record: any) => {
+        //         return (
+        //             <a
+        //                 onClick={() => {
+        //                     setAddVisible(true)
+        //                     setEdit(true)
+        //                     setEditId(record.key)
+        //                     props.form.setFieldsValue({
+        //                         deal: record.deal ? record.deal : false,
+        //                         remark: record.remark
+        //                     });
+        //                 }}>
+        //                 <DealBox type={record.deal ? 1 : 0} />
+        //             </a>
+        //         )
+        //     }
+        // }
+    ]
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange
