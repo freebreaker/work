@@ -10,13 +10,13 @@ export class PositonBox extends React.Component<IAuditBoxProps> {
     public render() {
         const Boxes = [{
             color: "#108ee9",
-            content: "banner"
+            content: "其他"
         }, {
             color: "#87d068",
-            content: "中间"
+            content: "直播预告"
         }, {
             color: "#f50",
-            content: "底部"
+            content: "正在直播"
         },]
         return (
             <div>

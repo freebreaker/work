@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react'
-import { Button, Table, Drawer, Form, Input, Select, Upload, Icon, message, Modal } from 'antd';
+import { Button, Table, Drawer, Form, Input, Select, Upload, Icon, message, Modal, Radio } from 'antd';
 import { apiGetVideoList, apiDeletePicture, apiAddVideo, apiEditVideo } from '../api';
 import { hasErrors } from '../../util/hasErrors';
 import { PositonBox } from '../../components/PositionBox';
@@ -31,6 +31,8 @@ const VideoPageWrap = (props: any) => {
 
     const [imgSrc, setImgSrc] = useState('')  // 弹出层视频
 
+    // const [type, setType] = useState(0)
+
     useEffect(() => {
         apiGetVideoList().then((res: any) => {
             if (res.data.length > 0) {
@@ -41,7 +43,8 @@ const VideoPageWrap = (props: any) => {
                         imgSrc: item.cover,
                         description: item.description ? item.description : "----",
                         link: item.link ? item.link : '----',
-                        viplink: item.viplink ? item.viplink : '----'
+                        viplink: item.viplink ? item.viplink : '----',
+                        vtype: item.type
                     }
                 })
                 setTableData(data)
@@ -85,6 +88,7 @@ const VideoPageWrap = (props: any) => {
                 formData.append("description", values.description)
                 formData.append("link", values.link)
                 formData.append("viplink", values.viplink)
+                formData.append("vtype", values.vtype)
                 // apiPostPicture(values.page,values.type,values.fileList)
 
                 if (edit) {
@@ -93,9 +97,9 @@ const VideoPageWrap = (props: any) => {
                     apiEditVideo(formData).then((res: any) => {
                         if (res) {
                             message.success("编辑成功")
-                            // setTimeout(() => {
-                            //     window.location.reload()
-                            // }, 500)
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 500)
                         } else {
                             message.error("编辑失败")
                         }
@@ -104,9 +108,9 @@ const VideoPageWrap = (props: any) => {
                     apiAddVideo(formData).then((res: any) => {
                         if (res) {
                             message.success("添加成功")
-                            // setTimeout(() => {
-                            //     window.location.reload()
-                            // }, 500)
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 500)
                         } else {
                             message.error("添加失败")
                         }
@@ -120,47 +124,54 @@ const VideoPageWrap = (props: any) => {
     const hasSelected = selectedRowKeys.length > 0;
 
     const columns = [
-        // {
-        //     title: '导航栏页面',
-        //     dataIndex: 'page',
-        //     key: 'page',
-        //     filters: [
-        //         {
-        //             text: '第1页',
-        //             value: '1',
-        //         },
-        //         {
-        //             text: '第2页',
-        //             value: '2',
-        //         },
-        //     ],
-        //     filterMultiple: false,
-        //     onFilter: (value: any, record: any) => {
-        //         console.log(record, value)
-        //         return record.page.toString().indexOf(value) === 0
-        //     },
-        //     render: (details: any, record: any) => {
-        //         return (
-        //             <span>{`第${record.page}页`}</span>
-        //         )
-        //     }
-        // }, 
         {
-            title: '视频位置',
-            dataIndex: 'position',
-            key: 'position',
+            title: '视频类型',
+            dataIndex: 'vtype',
+            key: 'vtype',
+            width: 120,
             filters: [
                 {
-                    text: 'banner',
+                    text: '其他',
+                    value: '0',
+                },
+                {
+                    text: '医护专业视频',
                     value: '1',
                 },
                 {
-                    text: '中间',
+                    text: '患教科普视频',
                     value: '2',
                 },
+            ],
+            filterMultiple: false,
+            onFilter: (value: any, record: any) => {
+                console.log(record, value)
+                return record.vtype.toString().indexOf(value) === 0
+            },
+            render: (details: any, record: any) => {
+                const arr = ["其他", '医护专业视频', '患教科普视频']
+                return (
+                    <span>{`${arr[parseInt(record.vtype)]}`}</span>
+                )
+            }
+        },
+        {
+            title: '视频位置',
+            dataIndex: 'position',
+            width: 150,
+            key: 'position',
+            filters: [
                 {
-                    text: '底部',
-                    value: '3',
+                    text: '其他',
+                    value: '0',
+                },
+                {
+                    text: '直播预告',
+                    value: '1',
+                },
+                {
+                    text: '正在直播',
+                    value: '2',
                 },
             ],
             filterMultiple: false,
@@ -170,7 +181,7 @@ const VideoPageWrap = (props: any) => {
             },
             render: (details: any, record: any) => {
                 return (
-                    <PositonBox type={record.position - 1} />
+                    <PositonBox type={record.position} />
                 )
             }
         }, {
@@ -202,6 +213,7 @@ const VideoPageWrap = (props: any) => {
             key: 'viplink',
         }, {
             title: '操作',
+            width: 100,
             render: (details: any, record: any) => {
                 return (
                     <a onClick={() => {
@@ -211,9 +223,11 @@ const VideoPageWrap = (props: any) => {
                         setEditImgSrc(record.imgSrc)
                         props.form.setFieldsValue({
                             page: record.page,
+                            description: record.description,
                             type: record.position,
                             link: record.link,
                             viplink: record.link,
+                            vtype: record.vtype
                         });
                     }}>编辑</a>
                 )
@@ -280,7 +294,7 @@ const VideoPageWrap = (props: any) => {
                 locale={{ filterConfirm: "确定", filterReset: "重置", emptyText: "暂无数据" }}
             />
             <Drawer
-                width={500}
+                width={800}
                 title={edit ? "编辑" : "添加"}
                 placement="right"
                 closable={true}
@@ -291,7 +305,11 @@ const VideoPageWrap = (props: any) => {
                     setEditImgSrc('')
                     props.form.setFieldsValue({
                         page: undefined,
-                        type: undefined
+                        type: undefined,
+                        description: undefined,
+                        link: undefined,
+                        viplink: undefined,
+                        vtype: undefined
                     });
                 }}
                 visible={addVisible}
@@ -312,11 +330,16 @@ const VideoPageWrap = (props: any) => {
                         {props.form.getFieldDecorator('type', {
                             rules: [{ required: true, message: '请选择位置' }],
                         })(
-                            <Select style={{ width: 320 }} onChange={() => { return }}>
-                                <Option value={1}>Banner</Option>
-                                <Option value={2}>中间</Option>
-                                <Option value={3}>底部</Option>
-                            </Select>
+                            // <Select style={{ width: 320 }} onChange={() => { return }}>
+                            //     <Option value={1}>首页轮播图</Option>
+                            //     <Option value={2}>首页专家</Option>
+                            //     <Option value={3}>底部</Option>
+                            // </Select>
+                            <Radio.Group>
+                                <Radio value={0}>其他</Radio>
+                                <Radio value={1}>直播预告</Radio>
+                                <Radio value={2}>正在直播</Radio>
+                            </Radio.Group>,
                         )}
                     </Form.Item>
                     <Form.Item label="描述">
@@ -329,6 +352,17 @@ const VideoPageWrap = (props: any) => {
                         {props.form.getFieldDecorator('link', {
                         })(
                             <Input type='text' />
+                        )}
+                    </Form.Item>
+                    <Form.Item label="视频类型">
+                        {props.form.getFieldDecorator('vtype', {
+                            // initialValue:"0"
+                        })(
+                            <Radio.Group>
+                                <Radio value={0}>其他</Radio>
+                                <Radio value={1}>医护专业视频</Radio>
+                                <Radio value={2}>患教科普视频</Radio>
+                            </Radio.Group>,
                         )}
                     </Form.Item>
                     <Form.Item label="VIP视频链接">
